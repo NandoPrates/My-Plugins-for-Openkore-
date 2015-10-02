@@ -1,0 +1,7 @@
+attackSkillSlot Afanar {
+   lvl 10
+   dist 1.5
+   sp > 14
+   maxUses 1
+   maxAttempts 3
+}
