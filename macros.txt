@@ -1,0 +1,1714 @@
+#
+#
+# Macro Novice Ground - By Alison
+# ver: 1.4 r110805
+# Save as macros.txt with format UTF-8
+#
+# Rest of Macro - UnknowN6996 
+# ver: 1.1
+# Up from 10 to 95 pratically alone. You just need to change the class.
+# In the future i'll add the macro quest list for every class.
+
+#Inicio
+automacro DefaultSettings {
+    class Novice
+    base == 1
+    job == 1
+    location new_1-1 53 111, new_2-1 53 111, new_3-1 53 111, new_4-1 53 111, new_5-1 53 111
+    eval ($::config{QuestPart} ne "NoviceZone0") and ($::config{QuestPart} ne "NoviceZone1") and ($::config{QuestPart} ne "NoviceZone2")
+    run-once 1
+		call DefaultSettingsM
+}
+
+macro DefaultSettingsM {
+[
+    log = Limpar as definicoes dos campos
+    do conf lockMap none
+    do conf route_randomWalk 0
+    pause 1
+
+    log = Salvar nome do Personagem
+    do conf charname @eval($::char->{name})
+    pause 1
+    # configurar arquivos de controle(CONTROL)
+
+    #items_control
+    pause @rand(5,9)
+
+    #pickupitems
+    do pconf all 1
+    pause @rand(5,9)
+
+    #mon_control
+    do mconf all 2 0 0
+    pause @rand(5,9)
+
+    #Parametrizar as configurações gerais
+    log = Parametrizar
+    do conf autoMoveOnDeath 0
+    do conf autoMoveOnDeath_x none
+    do conf autoMoveOnDeath_y none
+    do conf autoMoveOnDeath_map none
+    do conf saveMap none
+    do conf saveMap_warpToBuyOrSell 0
+    do conf sellAuto 0
+    do conf sellAuto_npc none
+    do conf sellAuto_standpoint none
+    do conf sellAuto_distance 5
+    do conf storageAuto 0
+    do conf storageAuto_npc none
+    do conf autoTalkCont 0
+    do conf autoSwitch_default_rightHand Knife [3]
+    do conf autoSwitch_default_leftHand none
+    do conf autoSwitch_default_arrow none
+    do conf sitAuto_hp_lower 20
+    do conf sitAuto_hp_upper 90
+    do conf sitAuto_idle 0
+    do conf sitAuto_look 4
+    do conf sitAuto_look_from_wall 1
+    do conf itemsTakeAuto 1
+    do conf itemsGatherAuto 2
+    do conf useHP.block Novice Potion
+    do conf useHP.hp < 60%
+    do conf useHP.disabled 0
+    do conf sellAuto 1
+
+
+    #Parametrizar vazio, para que o kore possa configurar a classe depois
+    do conf statsAddAuto 0
+    do conf statsAddAuto_list none
+    do conf skillsAddAuto 0
+    do conf skillsAddAuto_list none
+
+    #Caso a configuração tenha sido feita por um arqueiro
+    do conf runFromTarget 0
+    do conf runFromTarget_dist 6
+
+    log ===========================
+    log = Configuracao Geral 
+    log =   Completa ...
+    log = Iniciando Configuracao de classe
+    log ===========================
+]
+
+    pause @rand(3,4)
+    do conf QuestPart NoviceZone0
+}
+
+
+automacro SettingsClass {
+    class Novice
+    base == 1
+    job == 1
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1
+    eval $::config{QuestPart} eq "NoviceZone0"
+    run-once 1
+     call SettingsClassM
+}
+macro SettingsClassM {
+
+    log ==================================================================
+    log ==  Voce nao configurou a classe no config  ======================
+    log ==  Para resolver digite no console uma das opcoes abaixo  =======
+    log ==  e pressione Enter:  ==========================================
+    log ==  macro Espadachim-Crus  - Para Templario  =====================
+    log ==  macro Espadachim-Knight  - Para Cavaleiro  ===================
+     log ==  macro Novico-Priest  - Para Sacerdote  =======================
+     log ==  macro Novico-Monk  - Para Monge ==============================
+     log ==  macro Gatuno-Assasin  - Para Mercenario  =====================
+     log ==  macro Gatuno-Rogue  - Para Arruaceiro  =======================
+     log ==  macro Arqueiro  - Para Bardo/Cacador  ========================
+     log ==  macro Mago  - Para Bruxo/Sabio  ==============================
+     log ==  macro Mercador  - Paral Ferreito/Alquimista  =================
+     log ==  macro Taekwon  - Para Taekwon  ===============================
+     log ==  macro Ninja  - Para Ninja  ===================================
+     log ==  macro Justiceiro  - Para Justiceiro ==========================
+     log ==> SE DER ERRO SIGA AS INSTRUCOES ACIMA  <======================
+     log ==================================================================
+
+
+     $conf = @eval($::config{class})
+     if ($conf == E1) call Espadachim-Crus
+     if ($conf == E2) call Espadachim-Knight
+     if ($conf == N1) call Novico-Priest
+     if ($conf == N2) call Novico-Monk
+     if ($conf == G1) call Gatuno-Rogue
+     if ($conf == G2) call Gatuno-Assassin 
+     if ($conf == MG) call Mago
+     if ($conf == AR) call Arqueiro
+     if ($conf == ME) call Mercador
+     if ($conf == TK) call Taekwon
+     if ($conf == NJ) call Ninja
+     if ($conf == JU) call Justiceiro
+        
+}
+
+macro Espadachim-Crus {
+[
+    do conf Job 1
+    do conf statsAddAuto 0
+    do conf statsAddAuto_list 15 str, 15 dex, 15 agi, 25 dex, 15 vit, 30 str, 30 agi, 20 vit, 50 str, 40 agi, 35 dex, 72 str, 60 agi, 40 vit, 47 dex, 75 vit, 68 agi
+    do conf skillsAddAuto 1
+    do conf skillsAddAuto_list Basic Skill 9, Bash 10, Provoke 5, Endure 2
+
+    lock NoviceGroundPart1
+    pause @rand(2,3)
+
+    do conf QuestPart NoviceZone1
+    do reload macro
+]
+}
+
+macro Espadachim-Knight {
+[
+     do conf Job 1
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 15 str, 15 dex, 25 str, 25 dex, 15 vit, 30 dex, 40 str, 20 vit, 50 str, 30 agi, 40 dex, 60 str, 60 agi, 20 int, 49 dex, 75 str, 80 agi, 92 str
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Bash 10, Provoke 5, Endure 2
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+macro Novico-Priest {
+[
+     do conf Job 2
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 15 dex, 15 int, 20 dex, 40 int, 30 dex, 50 int, 20 vit, 60 int, 40 dex, 70 int, 30 vit, 80 int, 60 dex, 60 vit
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+macro Novico-Monk {
+[
+     do conf Job 2
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 15 str, 15 dex, 25 str, 25 dex, 15 vit, 30 dex, 40 str, 14 vit, 50 str, 30 agi, 40 dex, 60 str, 60 agi, 20 int, 54 dex, 75 str, 38 int, 73 agi, 48 int, 82 str
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Heal 3, Divine Protection 5, Blessing 1
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+
+macro Mago {
+[
+     do conf Job 3
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 90 int, 90 dex, 40 vit
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+macro Arqueiro {
+[
+     do conf Job 4
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 50 dex, 30 agi, 70 dex, 40 agi, 80 dex, 60 agi, 90 dex, 70 agi, 99 dex, 99 agi
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Owl's Eye 3, Vulture's Eye 10
+    
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+    
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+macro Gatuno-Rogue {
+[
+     do conf Job 5
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 str, 10 agi, 20 dex, 20 str, 50 agi, 30 dex, 30 str, 70 agi, 80 agi, 50 dex, 86 str, 95 agi
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Improve Dodge 10, Double Attack 10
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+    do conf QuestPart NoviceZone1
+    do reload macro
+]
+}
+
+macro Gatuno-Assasin {
+[
+     do conf Job 5
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 str, 10 agi, 20 dex, 20 str, 50 agi, 12 int, 30 dex, 30 str, 70 agi, 42 dex, 60 str, 80 agi, 14 vit, 94 str
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Improve Dodge 10, Double Attack 10 
+
+     lock NoviceGroundPart1 
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+
+macro Mercador {
+[
+     do conf Job 6
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 dex, 10 str, 20 agi, 20 str, 15 dex, 30 vit, 20 dex, 40 vit, 30 str, 30 dex, 22 agi, 40 str, 40 agi, 40 dex, 50 str, 12 int, 67 agi, 50 dex, 70 str, 60 vit, 24 int, 80 agi, 70 dex, 90 agi
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Enlarge Weight Limit 4, Discount 4, Overcharge 4, Enlarge Weight Limit 5, Pushcart 4, Vending 4
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+macro Taekwon {
+[
+     do conf Job 7
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 dex, 10 str, 20 agi, 20 str, 40 agi, 40 str, 20 dex, 70 agi, 50 str, 40 dex, 67 agi , 99 str , 50 dex
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9, Run 10, Counter 1, Ready Counter 1, Counter 7,  Turn Kick 1, Ready Turn 1, Turn Kick 7, Down Kick 1, Ready Down 1, Down Kick 7, Storm Kick 1, Ready Storm 1, Storm Kick 7,Jump Kick 1, Power 5, Taekwon Mission 1
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]    
+}
+
+macro Ninja {
+[
+     do conf Job 8
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 dex, 10 str, 20 agi, 20 str, 15 dex, 30 vit, 20 dex, 40 vit, 30 str, 30 dex, 22 agi, 40 str, 40 agi, 40 dex, 50 str, 12 int, 67 agi, 50 dex, 70 str, 60 vit, 24 int, 80 agi, 70 dex, 90 agi
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+}
+
+
+macro Justiceiro {
+[
+     do conf Job 9
+     do conf statsAddAuto 0
+     do conf statsAddAuto_list 10 dex, 10 str, 20 agi, 20 str, 15 dex, 30 vit, 20 dex, 40 vit, 30 str, 30 dex, 22 agi, 40 str, 40 agi, 40 dex, 50 str, 12 int, 67 agi, 50 dex, 70 str, 60 vit, 24 int, 80 agi, 70 dex, 90 agi
+     do conf skillsAddAuto 1
+     do conf skillsAddAuto_list Basic Skill 9
+
+     lock NoviceGroundPart1
+     pause @rand(2,3)
+
+     do conf QuestPart NoviceZone1
+     do reload macro
+]
+
+}
+
+
+##  Novice Zone Anti Reconnect Macro
+automacro DisconnectedFromMapServer {
+    class Novice
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3, new_1-4, new_2-4, new_3-4, new_4-4, new_5-4
+    console /(Disconnected from Map Server|The NPC did not respond|You are not talking to any NPC|Desconectado do Servidor de Mapas)/
+    
+     call DFMS
+}
+
+macro DFMS {
+    pause 1
+    do reload macro
+    release all
+    do reload conf
+    do relog 7
+    pause 4
+}
+# Campo de Aprendizes falar com os professores
+
+automacro NoviceGroundPart1 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone1"
+    class Novice
+    run-once 1
+		call NoviceGroundPart1M
+}
+
+macro NoviceGroundPart1M {
+    do move @rand(51,54) @rand(110,112)
+[
+    log ================================================
+    log ===========  Falando com a Sprakki  ============
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 53 114 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone2
+}
+
+automacro NoviceGroundPart2 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone2"
+    class Novice
+    run-once 1
+		call NoviceGroundPart2M
+}
+
+macro NoviceGroundPart2M {
+[
+    log ================================================
+    log =========  Confirmando Conversa  ===============
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 53 114 w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone3
+}
+
+automacro NoviceGroundPart3 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone3"
+    class Novice
+    run-once 1
+		call NoviceGroundPart3M
+}
+
+macro NoviceGroundPart3M {
+[
+    log ================================================
+    log ==============  Movendo Portal  ================
+    log ================================================
+]
+    do move 148 112
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone4
+}
+
+automacro NoviceGroundPart4 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone4"
+    class Novice
+    run-once 1
+		call NoviceGroundPart4M
+}
+
+macro NoviceGroundPart4M {
+    pause 3
+    do move @rand(99,101) @rand(24,26)
+[
+    log ================================================
+    log =======  Conversando com Sprakki 2  ============
+    log ================================================
+]
+    pause @rand(2,3)
+
+    do talknpc 100 29 w2 c w4 c w4 c w4 r0 w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone5
+}
+
+automacro NoviceGroundPart5 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone5"
+    class Novice
+    run-once 1
+		call NoviceGroundPart5M
+}
+
+macro NoviceGroundPart5M {
+    do move @rand(99,101) @rand(101,103)
+    pause @rand(2,3)
+
+    [
+    log ================================================
+    log =========  Conversando com Brade  ==============
+    log ================================================
+]
+    do talknpc 100 105 w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c
+
+    pause @rand(2,3)
+
+    [
+    log ================================================
+    log =====  Equipando Itens dados pelo Brade ========
+    log ================================================
+]
+    do eq @inventory (Traje do Aprendiz)
+    do eq @inventory (Capuz do Aprendiz)
+    do eq @inventory (Sandálias do Aprendiz)
+    do eq @inventory (Chapéu de Ovo do Aprendiz)
+    do eq @inventory (Adaga do Aprendiz)
+    do eq @inventory (Vembrassa do Aprendiz)
+    
+    pause @rand(2,3)
+
+    do talknpc 100 105 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c
+    
+    pause @rand(2,3)    
+    do talknpc 100 105 w4 c
+    
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone6
+}
+
+automacro NoviceGroundPart6 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone6"
+    class Novice
+    run-once 1
+		call NoviceGroundPart6M
+}
+
+macro NoviceGroundPart6M {
+    pause @rand(2,3)
+    do move @rand(114,116) @rand(109,111)
+
+    [
+    log ================================================
+    log ==========  Conversando com a Jinha  ===========
+    log ================================================
+    ]
+    pause @rand(2,3)
+    do talknpc 115 120 w4 c w4 r0 w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do talknpc 115 120 w4 c w4 r1 w4 c 
+    
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone7
+}
+
+automacro NoviceGroundPart7 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone7"
+    class Novice
+    run-once 1
+		call NoviceGroundPart7M
+}
+
+macro NoviceGroundPart7M {
+    pause @rand(2,3)
+    do move @rand(99,101) @rand(101,103)
+
+[
+    log ================================================
+    log ===========  Conversando com Brade 2  ==========
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 100 105 w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do talknpc 100 105 w4 c w4 r1 w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone8
+}
+
+
+automacro NoviceGroundPart8 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone8"
+    class Novice
+    run-once 1
+		call NoviceGroundPart8M
+}
+
+macro NoviceGroundPart8M {
+    pause @rand(2,3)
+    do move @rand(32,34) @rand(173,175)
+[
+    log ================================================
+    log ========  Conversando com a Chocolat  ==========
+    log ================================================
+]
+    do talknpc 33 172 w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone8pt1
+}
+
+automacro NoviceGroundPart8pt1 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone8pt1"
+    class Novice
+    run-once 1
+		call NoviceGroundPart8pt1M
+}
+
+macro NoviceGroundPart8pt1M {
+    pause @rand(2,3)
+[
+    log ================================================
+    log =========  Conversando com a Kafra  ============
+    log ================================================
+]
+    do talknpc 30 176 w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 c w4 r4 w4 c
+
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone8pt2
+}
+
+
+automacro NoviceGroundPart8pt2 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone8pt2"
+    class Novice
+    run-once 1
+		call NoviceGroundPart8pt2M
+}
+
+macro NoviceGroundPart8pt2M {
+    pause @rand(2,3)
+[
+    log ================================================
+    log =========  Conversando com o Zonda  ============
+    log ================================================
+]
+    do talknpc 33 176 w4 c w4 c w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone8pt3
+}
+
+
+automacro NoviceGroundPart8pt3 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone8pt3"
+    class Novice
+    run-once 1
+		call NoviceGroundPart8pt3M
+}
+macro NoviceGroundPart8pt3M {
+    pause @rand(2,3)
+[
+    log ================================================
+    log =========  Conversando com o Soldier  ==========
+    log ================================================
+]
+    do talknpc 36 176 w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone8pt4
+}
+
+automacro NoviceGroundPart8pt4 {
+    location new_1-1, new_2-1, new_3-1, new_4-1, new_5-1, new_1-2, new_2-2, new_3-2, new_4-2, new_5-2
+    eval $::config{QuestPart} eq "NoviceZone8pt4"
+    class Novice
+    run-once 1
+    call NoviceGroundPart8pt4M
+}
+macro NoviceGroundPart8pt4M {
+    pause@rand(3,4)
+[
+    log ================================================
+    log ========  Conversando com o Chocolat 2 =========
+    log ================================================
+]
+    do talknpc 33 172 w4 c w4 c w4 c w4 c w4 c w4 c 
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone9
+}
+
+
+automacro NoviceGroundPart9 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone9"
+    class Novice
+    run-once 1
+		call NoviceGroundPart9M
+}
+
+macro NoviceGroundPart9M {
+    [
+    log ================================================
+    log =======  Campo de Aprendiz Batalha  ============
+    log ================================================
+    ]
+    pause 3
+    do move @rand(94,96) @rand(26,28)
+[
+    log ================================================
+    log ===========  Conversando com Brade 3  ==========
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 96 30 w4 c w4 c w4 c w4 c w4 c w4 c
+    pause @rand(2,3)
+    do conf route_randomWalk 1
+    pause 2
+    do conf attackAuto 2
+    pause @rand(2,3)
+    $poring = @eval(0)    
+	do conf itemsGatherAuto 2
+	do conf itemsTakeAuto 2
+    do conf QuestPart NoviceZone10
+}
+
+automacro NoviceGroundPart10 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3
+    eval $::config{QuestPart} eq "NoviceZone10"
+    class Novice
+    run-once 1
+    console /(You attack Monster Poring)/i
+		call NoviceGroundPart10M
+}
+macro NoviceGroundPart10M {
+    $poring = @eval($::questList->{7122}->{missions}->{1002}->{count})
+    if ($poring < 1) goto rls
+    if ($poring >= 1) goto npc
+    
+    :rls
+    release $.caller
+    goto end
+
+    :npc
+    pause @rand(3,4)
+    do conf route_randomWalk 0
+    pause 1
+    do conf attackAuto 0
+    pause 1
+    do conf itemsTakeAuto 0 
+    do conf itemsGatherAuto 0 
+    pause @rand(3,4)
+    do move @rand(94,96) @rand(26,28)
+[
+    log ================================================
+    log ===========  Conversando com Brade 4  ==========
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 96 30 c
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone11
+
+    :end
+    stop
+}
+
+automacro NoviceGroundPart11 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone11"
+    class Novice
+    run-once 1
+		call NoviceGroundPart11M
+}
+macro NoviceGroundPart11M {
+[
+    log ================================================
+    log =========  Sessao de Quests iniciadas  =========
+    log ================================================
+]
+[
+    log ================================================
+    log =========  Conversando com o Npc Mage  =========
+    log ================================================
+]
+    pause @rand(2,3)
+    do move @rand(116,118) @rand(37,39)
+    do talknpc 117 41 w2 c w2 r0 w2 c w2 c w2 c w2 c w2 c w2 c w2 r0 w2 c w2 c w2 c
+    pause @rand(2,3)
+    do talknpc 117 41 w2 c w2 r2 w2 c w2 c w2 c
+    pause @rand(2,3)
+#    do eq @inventory (Traje do Aprendiz)
+#    do eq @inventory (Capuz do Aprendiz)
+#    do eq @inventory (Sandálias do Aprendiz)
+#    do eq @inventory (Chapéu de Ovo do Aprendiz)
+#    do eq @inventory (Vembrassa do Aprendiz)
+#    do eq @inventory (Túnica de Iniciante [1])
+    do eq @inventory (Punhal de Iniciante [3])
+    do eq @inventory (Manual do Mago)
+    do conf attackAuto 2
+    do conf route_randomWalk 1
+    pause 1
+    do conf itemsTakeAuto 1
+    $lunatic = @eval(0)
+    do conf QuestPart Lunatic
+}
+
+
+automacro LunatCont {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "Lunatic"
+    class Novice
+    run-once 1
+    console /(You attack Monster Lunático)|(You attack Monster Lunatic)/i
+		call LunatContM
+}
+
+macro LunatContM {
+    $lunatic = @eval($::questList->{7124}->{missions}->{1063}->{count})
+    if ($lunatic < 5) goto end
+    if ($lunatic >= 5) goto finish
+    
+    :end
+    release $.caller
+    stop
+
+    :finish
+    do conf route_randomWalk 0
+    pause 1
+    do conf attackAuto 0
+    pause 1
+    do conf itemsTakeAuto 0 
+    pause @rand(3,4)
+    do move @rand(116,118) @rand(37,39)
+    pause @rand(3,4)
+    do talknpc 117 41 w2 c w2 r2 w2 c
+    
+    log = Quest Concluida =
+
+    pause @rand(3,4)
+    do conf QuestPart NoviceZone12    
+    stop
+        
+}
+
+automacro NoviceGroundPart12 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2,new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone12"
+    class Novice
+    run-once 1
+		call NoviceGroundPart12M
+}
+
+macro NoviceGroundPart12M {
+    pause @rand(2,3)
+    do move @rand(104,106) @rand (46,48)
+[
+    log ================================================
+    log ========  Teleportando para outro nivel ========
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 103 50 w2 c w2 c w2 c w2 r1 w2 c
+
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone13
+}
+
+automacro NoviceGroundPart13 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone13"
+    class Novice
+    run-once 1
+		call NoviceGroundPart13M
+}
+
+macro NoviceGroundPart13M {
+[
+    log ================================================
+    log =======  Conversando com o Npc Swordman  =======
+    log ================================================
+]
+    pause @rand(2,3)
+    do move @rand(96,98) @rand(37,39)
+    do talknpc 97 41 w2 c w2 r0 w2 c w2 c w2 c w2 c w2 c w2 c w2 c w2 c w2 r0 w2 c w2 c w2 c
+    pause @rand(2,3)
+    do talknpc 97 41 w2 c w2 r2 w2 c w2 c w2 c
+    pause @rand(2,3)
+#    do eq @inventory (Traje do Aprendiz)
+#    do eq @inventory (Capuz do Aprendiz)
+#    do eq @inventory (Sandálias do Aprendiz)
+#    do eq @inventory (Chapéu de Ovo do Aprendiz)
+#    do eq @inventory (Adaga do Aprendiz)
+#   do eq @inventory (Vembrassa do Aprendiz)
+    do eq @inventory (Manual do Espadachim)
+    do conf attackAuto 2
+    pause 1
+    do conf route_randomWalk 1
+    pause 1
+    do conf itemsTakeAuto 1
+    $Picky = @eval(0)
+    do conf QuestPart Picky
+}
+
+automacro PickyCont {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "Picky"
+    class Novice
+    run-once 1
+    console /(You attack Monster Picky)/i
+		call PickyContM
+}
+
+macro PickyContM {
+    $Picky = @eval($::questList->{7123}->{missions}->{1049}->{count})
+    if ($Picky < 2) goto end
+    if ($Picky >= 2) goto finish
+    
+    :end
+    release PickyCont
+    stop
+
+    :finish
+    do conf route_randomWalk 0
+    pause 1
+    do conf attackAuto 0
+    pause 1
+    do conf itemsTakeAuto 0 
+    pause @rand(2,3)
+    do move @rand(96,98) @rand(37,39)
+    do talknpc 97 41 w2 c w2 r2 w2 c
+    
+    log = Quest Concluida =
+    
+    pause @rand(3,4)
+    do conf QuestPart NoviceZone14    
+    stop
+        
+}
+
+automacro NoviceGroundPart14 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone14"
+    class Novice
+    run-once 1
+		call NoviceGroundPart14M
+}
+
+macro NoviceGroundPart14M {
+[
+    log ================================================
+    log =======  Conversando com o Npc Gatuno  =========
+    log ================================================
+]
+    pause @rand(2,3)
+    do move @rand(104,106) @rand(37,39)
+    pause @rand(3,4)
+    do talknpc 105 41 w2 c w2 r0 w2 c w2 c w2 c w2 c w2 c w2 r0 w2 c w2 c w2 c
+    pause @rand(2,3)
+    do talknpc 105 41 w2 c w2 r2 w2 c w2 c w2 c
+    pause @rand(2,3)
+#    do eq @inventory (Túnica de Iniciante)
+#    do eq @inventory (Capuz do Aprendiz)
+#    do eq @inventory (Sandálias do Aprendiz)
+#    do eq @inventory (Chapéu de Ovo do Aprendiz)
+#    do eq @inventory (Punhal de Iniciante)
+#    do eq @inventory (Vembrassa do Aprendiz)
+    do eq @inventory (Manual do Gatuno) 
+    do conf attackAuto 2
+    pause 1
+    do conf route_randomWalk 1
+    pause 1
+    do conf itemsTakeAuto 1
+    $Willow = @eval(0)
+    do conf QuestPart Willow
+}
+
+automacro WillowCont {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "Willow"
+    class Novice
+    run-once 1
+    console /(You attack Monster Willow)|(You attack Monster Salgueiro)/i
+		call WillowContM
+}
+
+macro WillowContM {
+    $Willow = @eval($::questList->{7127}->{missions}->{1010}->{count})
+    if ($Willow < 5) goto end
+    if ($Willow >= 5) goto finish
+    
+    :end
+    release WillowCont
+    stop
+
+    :finish
+    pause @rand(2,3)
+    do move @rand(104,106) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 105 41 w2 c w2 r2 w2 c
+    
+    log = Quest Concluida =
+    
+    pause @rand(3,4)
+    do conf QuestPart NoviceZone15
+    stop
+        
+}
+
+automacro NoviceGroundPart15 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone15"
+    class Novice
+    run-once 1
+		call NoviceGroundPart15M
+}
+
+macro NoviceGroundPart15M {
+[
+    log ================================================
+    log =======  Conversando com o Npc Merchant  =======
+    log ================================================
+]
+    $mapavenda = $.map
+    pause @rand(2,3)
+    do move @rand(104,106) @rand(37,39)
+    pause @rand(3,4)
+    do talknpc 109 41 w2 c w2 r0 w2 c w2 c w2 c w2 c w2 c w2 c w2 r0 w2 c w2 c w2 c
+    pause @rand(2,3)
+    do talknpc 109 41 w2 c w2 r2 w2 c w2 c w2 c
+    pause @rand(2,3)
+    do conf sellAuto_npc $mapavenda 100 50
+    do eq @inventory (Manual do Mercador)
+    pause @rand(2,3)
+#    do eq @inventory (Traje do Aprendiz)
+#    do eq @inventory (Capuz do Aprendiz)
+#    do eq @inventory (Sandálias do Aprendiz)
+#    do eq @inventory (Chapéu de Ovo do Aprendiz)
+#    do eq @inventory (Adaga do Aprendiz)
+#    do eq @inventory (Vembrassa do Aprendiz)
+    do autosell
+    do conf QuestPart NoviceGroundPart16
+}
+
+automacro Merchant {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "Merchant"
+    base >= 10
+    class Novice
+    run-once 1
+		call MerchantM
+}
+
+macro MerchantM {
+    pause @rand(2,3)
+    do move @rand(104,106) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 109 41 w2 c w2 r2 w2 c w2 c w2 c
+    pause @rand(2,3)
+    log == Quest Concluida com Sucesso!!
+    pause @rand(2,3)
+    do conf QuestPart NoviceZone16
+}
+
+automacro NoviceGroundDied {
+    location new_1-3
+    eval ($::config{QuestPart} eq "NoviceZone13"||$::config{QuestPart} eq "NoviceZone14") || ($::config{QuestPart} eq "Willow"||$::config{QuestPart} eq "Picky")
+    class Novice
+    run-once 1
+		call NoviceGroundDiedM 
+}
+
+macro NoviceGroundDiedM {
+	do conf attackAuto 0
+	do conf itemsTakeAuto 0
+	do conf route_randomWalk 0
+    pause @rand(4,3)
+    do move @rand(104,106) @rand (46,48)
+[
+    log ================================================
+    log ========  Teleportando para outro nivel ========
+    log ================================================
+]
+    pause @rand(2,3)
+    do talknpc 103 50 w2 c w2 c w2 c w2 r1 w2 c
+    pause @rand(2,3)
+    do conf route_randomWalk 1
+    pause @rand(2,3)
+    do conf attackAuto 2
+    pause @rand(2,3)
+    do conf itemsTakeAuto 1
+    pause @rand(2,3)
+    release all
+}
+
+
+automacro NoviceGroundPart16 {
+    location new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+    eval $::config{QuestPart} eq "NoviceZone16"
+    class Novice
+    base >= 16
+    run-once 1
+		call NoviceGroundPart16M
+}
+
+macro NoviceGroundPart16M {
+[
+    log ================================================
+    log ========  Comecando mudanca de Classe  =========
+    log ================================================
+]
+	do conf attackAuto 0
+    $job = @eval($::config{Job})
+
+	
+    if ($job == 1) goto Espadachim
+    if ($job == 2) goto Novico
+    if ($job == 3) goto Mago
+    if ($job == 4) goto Arqueiro
+    if ($job == 5) goto Gatuno
+    if ($job == 6) goto Mercador
+    if ($job == 7) goto Taekwon
+    if ($job == 8) goto Ninja
+    if ($job == 9) goto Justiceiro
+    
+    :Espadachim
+    pause @rand(2,3)
+    do move @rand(100,102) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 97 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Novico
+    pause @rand(2,3)
+    do move @rand(100,102) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 101 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Gatuno
+    pause @rand(2,3)
+    do move @rand(100,102) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 105 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Mercador
+    pause @rand(2,3)
+    do move @rand(112,114) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 109 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Arqueiro
+    pause @rand(2,3)
+    do move @rand(112,114) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 113 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Mago
+    pause @rand(2,3)
+    do move @rand(112,114) @rand(37,39)
+    pause @rand(2,3)
+    do talknpc 117 41 w2 c w2 r1 w2 c w2 c w2 r1 w2 c
+    do conf QuestPart QuestClass
+    goto end
+
+    :Taekwon
+    pause @rand(2,3)
+    do move @rand(120,122) @rand(37,39)
+    pause @rand(2,3)
+    log = Desculpa, ainda não esta disponivel =/
+    do conf QuestPart QuestClass
+    goto end
+
+    :Justiceiro
+    pause @rand(2,3)
+    do move @rand(120,122) @rand(37,39)
+    pause @rand(2,3)
+    log = Desculpa, ainda não esta disponivel =/
+    do conf QuestPart QuestClass
+    goto end
+
+    :Ninja
+    pause @rand(2,3)
+    do move @rand(120,122) @rand(37,39)
+    pause @rand(2,3)
+    log = Desculpa, ainda não esta disponivel =/
+    do conf QuestPart QuestClass
+    goto end
+
+    :end
+    stop
+}
+
+##
+# Teste Espadachim
+##
+automacro QuestClassE {
+    location izlude_in
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+    call QuestClassEM
+}
+macro QuestClassEM {
+[
+    log ========================================
+    log == Mudando de Classe Para Espadachim  ==
+    log ========================================
+]
+    pause @rand(2,3)
+    do move @rand(73,75) @rand(166,168)
+    pause @rand(2,3)
+    do talknpc 74 172 w2 c w1 r1 w1 c w1 r0 w1 c w1 c
+    pause @rand(2,3)
+    
+    log == Mudanca de Classe Concluida Com Sucesso!!
+    
+    do conf QuestPart end
+    stop
+}
+
+##
+# Teste Novico
+##
+automacro QuestClassN {
+    location prt_church
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+    call QuestClassNM
+}
+macro QuestClassNM {
+[
+    log ========================================
+    log == Mudando de Classe Para Novico  ==
+    log ========================================
+]
+    pause @rand(2,3)
+    do move @rand(182,184) @rand(36,38)
+    pause @rand(2,3)
+    do talknpc 184 41 w2 c w1 r0 w1 c w1 c w1 c w1 c
+    pause @rand(2,3)
+    
+    log == Mudanca de Classe Concluida Com Sucesso!!
+    
+    do conf QuestPart end
+    stop
+}
+
+
+##
+# Teste Gatuno
+##
+automacro QuestClassG {
+    location moc_prydb1
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+     call QuestClassGM
+}
+macro QuestClassGM {
+[
+    log ========================================
+    log == Mudando de Classe Para Gatuno  ==
+    log ========================================
+]    
+    pause @rand(2,3)
+    do move moc_prydb1 85 115
+    pause @rand(2,3)
+    do move @rand(44,46) @rand(125,127)
+    pause @rand(2,3)
+    do talknpc 39 129 w2 c w1 r0 w1 c w1 c w1 r0 w1 c w1 c w1 c w1 r0 w1 c w1 c w1 c
+    pause @rand(2,3)
+    do talknpc 42 133 w2 c w1 r1 c w1 r1 c w1 c w1 c
+    pause @rand(2,3)
+    do eq @inventory (Main Gauche de Iniciante [3])
+   
+      log == Mudanca de Classe Concluida Com Sucesso!!
+   
+    do conf QuestPart end
+    stop
+}
+ 
+##
+# Teste Mercador
+##
+ automacro QuestClassM {
+    location alberta_in
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+     call QuestClassMM
+}
+ macro QuestClassMM {
+[
+    log ========================================
+    log == Mudando de Classe Para Mercador  ==
+    log ========================================
+]
+    pause @rand(2,3)
+    do move @rand(56,58) @rand(42,44)
+    pause @rand(2,3)
+    do talknpc 53 43 w2 c w1 r0 w1 c w1 c w1 c w1 c
+    pause @rand(2,3)
+      log == Mudanca de Classe Concluida Com Sucesso!!
+   
+    do conf QuestPart end
+    stop
+}
+ 
+##
+# Teste Arqueiro
+##
+ automacro QuestClassA {
+    location payon_in02
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+     call QuestClassAM
+}
+ macro QuestClassAM {
+[
+    log ========================================
+    log == Mudando de Classe Para Arqueiro  ==
+    log ========================================
+]
+    pause @rand(2,3)
+    do move @rand(63,65) @rand(66,68)
+    pause @rand(2,3)
+    do talknpc 64 71 w2 c w1 r0 w1 c w1 c w1 c w1 c
+    pause @rand(2,3)
+ 
+    log == Mudanca de Classe Concluida Com Sucesso!!
+     
+    do conf QuestPart end
+    stop
+}
+ 
+##
+# Teste Mago
+##
+ automacro QuestClassMG {
+    location geffen_in
+    eval $::config{QuestPart} eq "QuestClass"
+    class Novice
+    job == 10
+    run-once 1
+     call QuestClassMGM
+}
+ macro QuestClassMGM {
+[
+    log ========================================
+    log == Mudando de Classe Para Mago  ==
+    log ========================================
+]
+    pause @rand(2,3)
+    do move @rand(163,165) @rand(121,123)
+    pause @rand(2,3)
+    do talknpc 164 124 w2 c w1 r0 w1 c w1 c w1 r0 w1 c w1 c w1 c w1 c
+    pause @rand(2,3)
+      log == Mudanca de Classe Concluida Com Sucesso!!
+   
+    do conf QuestPart end
+    stop
+}
+
+automacro SetBuyAndUse {
+	inventory "Poção de Aprendiz" < 1
+	eval $::jobs_lut{$::char->{'jobID'}} ne "Novice"
+	base > 16
+	disabled 1
+	run-once 1
+	 call {
+	do conf buyAuto_0 Poção Vermelha
+	do conf useSelf_item_0 Poção Vermelha, Poção Laranja, Poção de Aprendiz
+	do conf useSelf_item_0_hp < 50%
+	do conf buyAuto_0_disabled 0
+	}
+}
+
+automacro Goto_16-20 {
+    run-once 1
+    priority 1
+    eval $::field->baseName() ne $::config{lockMap}
+    base >= 16
+    base < 20
+    eval $::config{QuestPart} eq "end"
+    location not new_1-2, new_2-2, new_3-2, new_4-2, new_5-2, new_1-3, new_2-3, new_3-3, new_4-3, new_5-3
+     call {
+	do conf class none
+	do conf Job none
+	do conf charname none
+	do conf lockMap pay_fild08
+    do conf itemsTakeAuto 2
+    do conf itemsGatherAuto 2
+    do conf attackAuto 2
+    do conf route_randomWalk 1
+    pause 2
+    do is @inventory (Asa de Borboleta de Iniciante)
+    do conf sitAuto_idle 0
+    pause 2
+    do move @config(lockMap)
+	}
+}
+
+automacro Goto_20-30 {
+	run-once 1
+	priority 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 20
+	base < 30
+	exclusive 1
+	 call {
+	do conf lockMap pay_fild09	
+	do eval AI::Clear
+	}
+}
+
+automacro Goto_30-45 {
+	run-once 1
+	priority 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 30
+	base < 45
+	exclusive 1
+	 call {
+	do conf lockMap pay_fild02
+	do eval AI::Clear
+	}
+}
+
+automacro Goto_45-55 {
+	run-once 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 45
+	base < 55
+	priority 1
+	exclusive 1
+	 call {
+	do conf lockMap gef_fild10
+	do eval AI::Clear
+	}
+}
+
+automacro Goto_55-65 {
+	run-once 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+   	base >= 55
+    base < 65
+    priority 1
+	exclusive 1
+     	 call {
+    do conf lockMap iz_dun02
+    do eval AI::Clear
+	}	
+}
+
+automacro Goto_65-74 {
+	class Rogue
+	run-once 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 65
+	base < 74
+	priority 1
+	exclusive 1
+	 call {
+    do conf lockMap gef_fild10
+    do eval AI::Clear
+  }	
+}
+
+automacro Goto_74-87 {
+	class Rogue
+	run-once 1
+    priority 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 74
+   	base < 87
+	 call {
+	do conf lockMap gef_fild06
+	do eval AI::Clear
+   }
+}
+
+automacro Goto_87-93 {
+	class Rogue
+	run-once 1
+    priority 1
+	exclusive 1
+	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
+	base >= 87
+    base < 93
+	 call {
+	do conf lockMap gef_fild06
+	do eval AI::Clear
+   }
+}
+
+automacro isIdle {
+	eval AI::isIdle eq 1 && $::field->baseName() ne $::config{lockMap}
+	timeout 10
+	exclusive 1
+	class Rogue, Knight
+	base >= 30
+	 call {
+	pause 5
+	do eval AI::Clear
+	do conf attackAuto 0
+	do conf route_randomWalk 0
+	do move @config(lockMap)
+	do conf attackAuto 2
+	do conf route_randomWalk 1
+  }
+}
+
+automacro DecideWhaToDo {
+	run-once 1
+	zeny < 1200
+	exclusive 1
+	priority 2
+	call doita
+}
+
+macro doita {
+do iconf all 0 0 1
+do conf storageAuto 0
+do conf attackAuto 0
+do conf itemsGatherAuto 0
+do conf itemsTakeAuto 0
+do autosell
+do conf attackAuto 2
+do conf itemsGatherAuto 2
+do conf itemsTakeAuto 2
+do conf storageAuto 1
+do iconf all 0 1 0
+release $.caller
+}
+
+macro doitb {
+	pause 2
+	do ai manual
+	do conf attackAuto 0
+	do conf itemsGatherAuto 0
+	do conf itemsTakeAuto 0
+	if ($.zeny < 5000) goto sell
+	if ($.zeny >= 5000) goto store
+	
+	:sell 
+	do iconf all 0 0 1
+	do eval warning "[[Setting sellAuto]]\n";
+	$x = checkIfMap(1)
+	while ($x != 1) as loop
+	do move @config(sellAuto_npc)
+	log Moving to @config(sellAuto_npc)
+	$x = checkIfMap(1)
+	end loop
+	$command = "autosell"
+	goto continu
+
+	:store
+	do iconf all 0 1 0
+	do eval warning "[[Setting storageAuto for]]\n";
+	$x = checkIfMap(2)
+	while ($x ne 1) as loop
+	do move @config(storageAuto_npc)
+	log Moving to @config(storageAuto_npc)
+	$x = checkIfMap(2)
+	end loop
+	$command = "autostorage"
+	goto continu
+
+	:continu
+	log "We're in continu"
+	do ai auto
+	do $command
+	do conf attackAuto 2
+	do conf itemsGatherAuto 2
+	do conf itemsTakeAuto 2
+	do iconf all 0 1 0
+	pause 2
+	do ai clear
+}
+
+sub checkIfMap {
+my $map = 0;
+	if ($_[0] eq 1) {
+	$map = $config{"sellAuto_npc"};
+	} else {
+	$map = $config{"storageAuto_npc"};
+	}
+	$map =~ /(.*) (\d+) (\d+)/ig;
+	my $field_s = $1;
+	my $x_s = $2;
+	my $y_s = $3;
+	if ($field_s eq $field->baseName() ) {
+	return 1;
+	}
+	return 0;
+}
+
+automacro CleanMyStorage {
+    eval ( ($char->{weight} * 100) / $char->{weight_max} ) <= 89
+	job >= 20
+	class Merchant
+	location not prontera
+    exclusive 1
+	run-once 1
+     call {
+    do move prontera 151 29
+    pause 2
+    do talknpc 151 29 c r1 n
+	do eval warning "Storage opened\n";
+	
+    while ($.weight <= 80%) as loop
+    do storage get $i
+    $i++
+    end loop
+  }
+}
+
+automacro CheckSaved_Payon {
+	eval $::config{saveMap} ne "payon" && $config{lockMap} =~ /pay_fild(02|07|08|09)/ig
+	base >= 17
+	exclusive 1
+	priority 2
+	timeout 20
+	 call {
+	while (@npc("Funcionária Kafra") == -1) as loop
+	do eval savemapa("payon");
+	do eval warning "Saving in payon\nNo npc found\n";
+	pause 20
+	end loop
+	do talk @npc (/Funcion.ria Kafra/i);
+	do talk cont
+	do talk resp 0
+	do conf saveMap payon
+	}
+}
+
+automacro CheckSaved_Prontera {
+	eval $::config{saveMap} ne "prontera" && $::config{lockMap} =~ /gef_fild(10)/ig && $char->statusesString !~ /.*?Stop.*?/ig;
+	exclusive 1
+	priority 2
+	timeout 20
+	 call {
+	while (@npc("Funcionária Kafra") == -1) as loop
+	do eval savemapa("prontera");
+	pause 20
+	end loop
+	do talk @npc (/Funcion.ria Kafra/i);
+	do talk cont
+	do talk resp 0
+	do conf saveMap prontera
+	}
+}
+
+automacro CheckSaved_Izlude {
+	eval $::config{saveMap} ne "izlude" && $::config{lockMap} =~ /iz_dun(00|01|02|03|04|05)/ig
+	exclusive 1
+	priority 2
+	timeout 20
+	 call {
+	while (@npc("Funcionária Kafra") == -1) as loop
+	do eval savemapa("izlude");
+	pause 20
+	end loop
+	do talk @npc (/Funcion.ria Kafra/i);
+	do talk cont
+	do talk resp 0
+	do conf saveMap izlude
+	}
+}
+
+automacro CheckSaved_Geffen {
+	eval $::config{saveMap} ne "geffen" && $::config{lockMap} =~ /gef_fild(06)/ig
+	exclusive 1
+	priority 2
+	timeout 20
+	 call {
+	while (@npc("Funcionária Kafra") == -1) as loop
+	do eval savemapa("geffen");
+	pause 20
+	end loop
+	do talk @npc (/Funcion.ria Kafra/i);
+	do talk cont
+	do talk resp 0
+	do conf saveMap geffen
+	}
+}
+
+sub savemapa {
+	my %savemap;
+	my @choiced;
+	my $input = $_[0];
+	my @steps = qw (sellAuto buyAuto_0_disabled storageAuto storageAuto_npc storageAuto_npc_type storageAuto_npc_steps storageAuto_password sellAuto_npc useSelf_item_0 useSelf_item_0_hp buyAuto_0 buyAuto_0_price buyAuto_0_minAmount buyAuto_0_maxAmount buyAuto_0_npc);
+	my @payon = (
+	"1", "0", "0",
+	"payon 181 104", "1", "c r1 n", "7547", #storageAuto
+	"payon_in01 5 49", "Poção de Aprendiz, Poção Vermelha, Poção Laranja", "< 30%", #sellAuto_npc_steps / useSelf_item / useSelf_item_hp
+	"Poção Vermelha", "50", "10", "100", "payon_in01 5 49", "payon 181 104", "all 0 0 1",  #buyAuto / buyAuto_price / buyAuto_maxAmount / buyAuto_minAmount / buyAuto_0_npc_pos iconf all var
+	);my @prontera = (
+	"1", "0", "1",
+	"gef_fild10 73 340", "3", "c r0 n", "7547",
+	"prt_in 126 76", "Poção de Aprendiz, Poção Vermelha, Poção Laranja", "< 30%",
+	"Poção Vermelha", "50", "10", "100", "prt_in 126 76", "prontera 151 29", "all 0 1 0"
+	);my @izlude = (
+	"1", "0", "1",
+	"izlude 134 88", "1", "c r1 n", "7547",
+	"izlude_in 115 61", "Poção de Aprendiz, Poção Vermelha, Poção Laranja", "< 30%",
+	"Poção Vermelha", "50", "10", "100", "izlude_in 115 61", "izlude 134 88", "all 0 1 0"
+	);my @geffen = (
+	"1", "0", "1",
+	"geffen 203 123", "1", "c r1 n", "7547",
+	"geffen_in 77 167", "Poção de Aprendiz, Poção Vermelha, Poção Laranja", "< 30%",
+	"Poção Vermelha", "50", "10", "100", "geffen_in 77 167", "geffen 203 123", "all 0 1 0", 
+	);
+	if ($input eq "payon") {
+	@choiced = @payon;
+	} 
+		elsif ($input eq "prontera") {
+		@choiced = @prontera;
+		} 
+			elsif ($input eq "izlude") {
+			@choiced = @izlude;
+			} 
+				elsif ($input eq "geffen") {
+				@choiced = @geffen;
+				} 
+					else {
+					#print "Error on your choice...\n";
+					system("pause");
+					exit(0);
+					}
+	for (my $i = 0;$i < scalar @steps;$i++) {
+	$savemap{ucfirst($input)}{$steps[$i]} = $choiced[$i];
+	Commands::run("conf $steps[$i] $choiced[$i]");
+	}
+	my %logonTimeout = ( time => time(), timeout => 15 );
+	my $iconf = pop @choiced;
+	my $savepoint = pop @choiced;
+	Commands::run("iconf $iconf");
+		if ($savepoint ne 0) {
+		$savepoint =~ /(\w+) (\d+) (\d+)/ig;
+		$tourf = $1;
+		$tourx = $2 - 3;
+		$toury = $3 - 3;
+		Commands::run("move $tourf $tourx $toury");
+		return "$savepoint";
+		}
+	return 0;
+}
