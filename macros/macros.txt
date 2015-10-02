@@ -1207,7 +1207,6 @@ macro QuestClassNM {
     stop
 }
 
-
 ##
 # Teste Gatuno
 ##
