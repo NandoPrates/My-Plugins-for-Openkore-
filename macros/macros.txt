@@ -1408,12 +1408,12 @@ automacro Goto_55-65 {
 	run-once 1
 	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
    	base >= 55
-    base < 65
-    priority 1
+    	base < 65
+    	priority 1
 	exclusive 1
      	 call {
-    do conf lockMap iz_dun02
-    do eval AI::Clear
+	 do conf lockMap iz_dun02
+    	do eval AI::Clear
 	}	
 }
 
@@ -1426,8 +1426,8 @@ automacro Goto_65-74 {
 	priority 1
 	exclusive 1
 	 call {
-    do conf lockMap gef_fild10
-    do eval AI::Clear
+    	do conf lockMap gef_fild10
+    	do eval AI::Clear
   }	
 }
 
@@ -1447,11 +1447,11 @@ automacro Goto_74-87 {
 automacro Goto_87-93 {
 	class Rogue
 	run-once 1
-    priority 1
+    	priority 1
 	exclusive 1
 	eval $::field->baseName() ne $::config{lockMap} && $::config{lockMap} ne $::config{saveMap}
 	base >= 87
-    base < 93
+    	base < 93
 	 call {
 	do conf lockMap gef_fild06
 	do eval AI::Clear
@@ -1479,6 +1479,7 @@ automacro DecideWhaToDo {
 	run-once 1
 	zeny < 1200
 	exclusive 1
+	weight >= 3%
 	priority 2
 	call doita
 }
@@ -1496,88 +1497,6 @@ do conf itemsTakeAuto 2
 do conf storageAuto 1
 do iconf all 0 1 0
 release $.caller
-}
-
-macro doitb {
-	pause 2
-	do ai manual
-	do conf attackAuto 0
-	do conf itemsGatherAuto 0
-	do conf itemsTakeAuto 0
-	if ($.zeny < 5000) goto sell
-	if ($.zeny >= 5000) goto store
-	
-	:sell 
-	do iconf all 0 0 1
-	do eval warning "[[Setting sellAuto]]\n";
-	$x = checkIfMap(1)
-	while ($x != 1) as loop
-	do move @config(sellAuto_npc)
-	log Moving to @config(sellAuto_npc)
-	$x = checkIfMap(1)
-	end loop
-	$command = "autosell"
-	goto continu
-
-	:store
-	do iconf all 0 1 0
-	do eval warning "[[Setting storageAuto for]]\n";
-	$x = checkIfMap(2)
-	while ($x ne 1) as loop
-	do move @config(storageAuto_npc)
-	log Moving to @config(storageAuto_npc)
-	$x = checkIfMap(2)
-	end loop
-	$command = "autostorage"
-	goto continu
-
-	:continu
-	log "We're in continu"
-	do ai auto
-	do $command
-	do conf attackAuto 2
-	do conf itemsGatherAuto 2
-	do conf itemsTakeAuto 2
-	do iconf all 0 1 0
-	pause 2
-	do ai clear
-}
-
-sub checkIfMap {
-my $map = 0;
-	if ($_[0] eq 1) {
-	$map = $config{"sellAuto_npc"};
-	} else {
-	$map = $config{"storageAuto_npc"};
-	}
-	$map =~ /(.*) (\d+) (\d+)/ig;
-	my $field_s = $1;
-	my $x_s = $2;
-	my $y_s = $3;
-	if ($field_s eq $field->baseName() ) {
-	return 1;
-	}
-	return 0;
-}
-
-automacro CleanMyStorage {
-    eval ( ($char->{weight} * 100) / $char->{weight_max} ) <= 89
-	job >= 20
-	class Merchant
-	location not prontera
-    exclusive 1
-	run-once 1
-     call {
-    do move prontera 151 29
-    pause 2
-    do talknpc 151 29 c r1 n
-	do eval warning "Storage opened\n";
-	
-    while ($.weight <= 80%) as loop
-    do storage get $i
-    $i++
-    end loop
-  }
 }
 
 automacro CheckSaved_Payon {
