@@ -1,0 +1,112 @@
+partySkill Clementia {
+lvl 3
+sp > 10
+target_whenStatusInactive Blessing
+}
+
+partySkill Canto Candidus {
+lvl 3
+sp > 200
+target_whenStatusInactive Increase Agility
+}
+
+partySkill Praefatio {
+lvl 3
+sp > 10
+target_whenStatusInactive Kyrie Eleison
+}
+
+partySkill Magnificat {
+lvl 3
+sp > 10
+target_whenStatusInactive Magnificat
+}
+
+partySkill Impositio Manus {
+lvl 5
+sp > 10
+target_whenStatusInactive Impositio Manus
+}
+
+partySkill Highness Heal {
+lvl 5
+target_hp < 60%
+sp > 150
+}
+
+partySkill Curar {
+lvl 10
+target_hp >= 60%
+target_hp < 100%
+target_isNotJob Sorcerer
+sp > 50
+}
+
+partySkill Aumentar Agilidade {
+lvl 10
+target_whenStatusInactive Increase Agility
+sp > 30
+}
+
+partySkill Benção {
+lvl 10
+target_whenStatusInactive Blessing
+sp > 30
+}
+
+partySkill Kyrie Eleison {
+lvl 9
+target_whenStatusInactive Kyrie Eleison
+sp > 40
+}
+
+partySkill Angelus {
+lvl 10
+target_whenStatusInactive Angelus
+sp > 40
+}
+
+########################################
+
+useSelf_skill Magnificat {
+lvl 5
+sp > 10
+whenStatusInactive Magnificat
+}
+
+useSelf_skill Highness Heal {
+lvl 5
+hp < 60%
+sp > 150
+}
+
+useSelf_skill Curar {
+lvl 10
+hp >= 60%
+hp < 100%
+sp > 50
+}
+
+useSelf_skill Aumentar Agilidade {
+lvl 10
+whenStatusInactive Increase Agility
+sp > 50
+}
+
+useSelf_skill Bênção {
+lvl 10
+whenStatusInactive Blessing
+sp > 50
+}
+
+useSelf_skill Kyrie Eleison {
+lvl 9
+whenStatusInactive Kyrie Eleison
+sp > 50
+}
+
+useSelf_skill Angelus  {
+lvl 10
+whenStatusInactive Angelus
+sp > 50
+}
