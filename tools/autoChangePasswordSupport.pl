@@ -102,4 +102,3 @@ sub ClipBoard {
 my $CLIP = Win32::Clipboard();
 $CLIP->Set($_[0]);
 }
-
