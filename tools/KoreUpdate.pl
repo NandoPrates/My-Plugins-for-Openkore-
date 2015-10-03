@@ -6,6 +6,7 @@ use File::Path qw(remove_tree);
 use Switch;
 
 #How it works : http://oi61.tinypic.com/2cwwg14.jpg
+#It will copy the selected file for all folders in our directory. 
 *principal = *main;
 principal();
 system("pause");
