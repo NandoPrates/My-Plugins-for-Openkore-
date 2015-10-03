@@ -1,0 +1,8 @@
+useSelf_skill Rapidez com Duas Mãos {
+	lvl 10
+	sp > 20%
+	whenStatusInactive Two-Hand Quicken
+	inLockOnly 1
+	notWhileSitting 1
+	notInTown 1
+}
