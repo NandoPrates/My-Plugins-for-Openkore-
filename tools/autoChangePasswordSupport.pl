@@ -1,7 +1,6 @@
 use Win32::IEAutomation;
 use Win32::Clipboard;
 
-# Creating new instance of Internet Explorer
 my %game_pass = qw(
 RagnarokAccount RagnarokPassword
 );
