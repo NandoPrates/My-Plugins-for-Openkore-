@@ -1,4 +1,4 @@
-#Criando diretorios 
+##Criando diretorios 
 open HEX, "<", "Ragexe.pb.1.exe" or die $!;
 mkdir 'tables';
 mkdir 'tables/bro';
