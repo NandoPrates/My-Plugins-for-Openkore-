@@ -75,9 +75,8 @@ my $temp;
 			}
 		}
 	}
-	
-return 0;
 close F;
+return 0;
 }
 
 sub readfolders {
