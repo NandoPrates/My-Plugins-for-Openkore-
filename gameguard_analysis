@@ -1,0 +1,5 @@
+Comentario : Apenas assimilando e anotando os fatos para possiveis futuras analises...
+
+1 . Gameguard passa como parametro um codigo gerado e criptografado na hora de iniciar o exe, este mesmo provavelmente
+sera alterado durante o jogo e assim enviando uma seed pro 09CF request. Sub responsavel
+encontrada mais ainda nao pode ser decodif. devido a problemas enfrentados com o debugger/themida!
