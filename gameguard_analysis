@@ -1,5 +1,0 @@
-Comentario : Apenas assimilando e anotando os fatos para possiveis futuras analises...
-
-1 . Gameguard passa como parametro um codigo gerado e criptografado na hora de iniciar o exe. Ate onde sei o gameguard
-usa as funcoes do rsaenh para mexer com o ragnarok.ini e gameguard.ini porem estou com duvidas que isso tenha
-relaçao com o pacote 09cf.
