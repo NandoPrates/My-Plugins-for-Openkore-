@@ -2,14 +2,12 @@ use strict;
 use warnings;
 use Plugins;
 use Log qw (warning message debug error);
-
 #-----------------
 # Plugin: settings
 #-----------------
 Plugins::register("shopSold", "shopSold", \&on_unload, \&on_reload);
 # Log hook
 my $logHook = Log::addHook(\&on_Log, "shopsold");
-
 #---------------
 # Plugin: on_unload
 #---------------
