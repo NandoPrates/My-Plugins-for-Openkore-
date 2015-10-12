@@ -6,16 +6,19 @@ use Log qw (warning message debug error);
 #-----------------
 # Plugin: settings
 #-----------------
-Plugins::register("shopsold", "shopsold", \&unload);
+Plugins::register("shopSold", "shopSold", \&on_unload, \&on_reload);
 # Log hook
 my $logHook = Log::addHook(\&on_Log, "shopsold");
 
 #---------------
-# Plugin: unload
+# Plugin: on_unload
 #---------------
-sub unload {
+sub on_unload {
 Log::delHook($logHook);
-undef $logHook;
+}
+
+sub on_reload {
+&on_unload;
 }
 
 #-------------
@@ -24,7 +27,7 @@ undef $logHook;
 sub on_Log {
 my ($type, $domain, $level, $globalVerbosity, $message, $user_data) = @_;
 	if ( $type eq "message" ){
-		if ($message =~ /sold: (\d+) - (.*) (\d+)z/ig) {
+		if ($message =~ /(sold|vendido): (\d+) - (.*) (\d+)z/ig) {
 		Utils::Win32::playSound("C:\\coin.wav");
 		}		
 	}
