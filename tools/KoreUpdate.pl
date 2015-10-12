@@ -13,14 +13,7 @@ system("pause");
 
 sub main {
 	system("cls");
-	printf("1 for src/tables\n2 for another file\n3 for macros\n4 for config\n5 for pickup\n6 for portals\n\nR: ");
-	"1 - for src/tables 
-	2 for another file  
-	3 for macros
-	4 for config
-	5 for pickup
-	6 for portals";chomp (my $response = <STDIN>);
-	switch ($response) { case 1 { main1(); } case 2 { main2(); } case 3 { main2("macros"); } case 4 { main2("config"); } case 5 { main2("pickup"); }  case 6 { main2("portals");  } case "exit" { exit (0); } else  { system"cls";print "Try again\n";sleep(1);main(); } }
+	printf("Select a dir/file for update:\n\n1 => src/tables\n2 => control/macros.txt\n3 => control/config.txt\n4 => control/pickupitems.txt\n5 => control/items_control.txt\n6 => control/mon_control.txt\n7 => tables/bRO/portals.txt\n8 => A plugin\n9 => Another file\n\nR: ");chomp (my $response = <STDIN>);switch ($response) { case 1 {main1(); } case 2 {main2("macros");} case 3 {main2("config");} case 4 {main2("pickup");} case 5 {main2("itemsc");}  case 6 {main2("monc");} case 7 {main2("portals");} case 8 {main2("plugins");} case 9 {main2();} case "exit" { exit (0); } else  { system"cls";print "Try again\n";sleep(1);main(); } }
 }
 
 sub main1 {
@@ -43,7 +36,7 @@ sub main1a {
 	my @files = <*>;
 	my $counter = 0;
 	foreach my $files (@files) {
-	my ( $receive_from,  $receive_to,  $send_from,  $send_to,  $packets_from,  $packets_to , $x, $y, $z);
+	my ( $receive_from, $receive_to,  $send_from,  $send_to,  $packets_from,  $packets_to , $x, $y, $z);
 		if (-d "src" && -d "tables") {
 			next if ($files =~ /^.+\.pl$/ig);
 			$receive_from = "src/Network/Receive/bro.pm";	
@@ -73,12 +66,14 @@ return $counter;
 
 sub main2 {
 	system("cls");
-	my @files = <*>;
-	print "File : ";
 	my ($file, $destin, $sys_from, $sys_to) = 0;
-	$file = shift if (defined($_[0]));
+	my @files = <*>;
+	print "Plugin name (with/out .pl extension) : " if (defined($_[0]) && $_[0] eq "plugins");
+	$file = "plugins" if (defined($_[0]) && $_[0] eq "plugins");
+	$file = shift if (defined($_[0]) && $_[0] ne "plugins");
+	print "File : " if (!$file);
 	chomp ($file=<STDIN>) if (!$file);
-	################################################CONTROL################################################
+
 	if ($file =~ /macros.txt|macros/ig) {
 		$sys_from = "macros.txt";
 		goto controlfiles;
@@ -88,16 +83,26 @@ sub main2 {
 	} 	elsif ($file =~ /pickupitems.txt|pickupitems|pickup/ig) {
 		$sys_from = "pickupitems.txt";
 		goto controlfiles;
+	} 	elsif ($file =~ /items_control.txt|items(_)?c(ontrol)?/ig) {
+		$sys_from = "items_control.txt";
+		goto controlfiles;
+	} 	elsif ($file =~ /mon_control.txt|mon(_)?c(ontrol)?/ig) {
+		$sys_from = "mon_control.txt";
+		goto controlfiles;
 	} 	elsif ($file =~ /portals.txt|portals/ig) {
 		$sys_from = "portals.txt";
 		goto tablesfiles;
+	}	elsif ($file =~ /plugins|plugns/ig) {
+		$sys_from = $file;
+		goto plugnsfolder;
 	}
 		else {	
 		print "Destin : ";
 		chomp ($destin =<STDIN>);
 		system("cls");
-			if ($file eq "" || $destin eq "") {
+			if (length($file) <= 1 || length($destin) <= 1) {
 			print "Empty file or/and destin (empty input stdin)\n";
+			return 0;
 			} 
 				else {
 				$sys_from = $file;
@@ -108,17 +113,20 @@ sub main2 {
 		}
 	controlfiles:
 	movefiles($sys_from, "control/$sys_from", @files);
+
 	tablesfiles:
 	movefiles($sys_from, "tables/bRO", @files);
+	
+	plugnsfolder:
+	movefiles($sys_from, "/plugins", @files);
 }
 
 sub movefiles {
 my ( $sys_from, $sys_to, @files) = @_;
 my ($exception, $counter) = 0;
-$exception = "FoldersToNotUpdate";
 		foreach my $files (@files) {
 			if (-f "$sys_from") {
-				if (-d $files && $files !~ /$exception/ig) {
+				if (-d $files) {
 					$counter += copy ("$sys_from", "$files/$sys_to");
 					#print "$sys_from => $files/$sys_to\n";
 					}
