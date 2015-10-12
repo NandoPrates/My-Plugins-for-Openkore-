@@ -16,11 +16,9 @@ my $logHook = Log::addHook(\&on_Log, "shopsold");
 sub on_unload {
 Log::delHook($logHook);
 }
-
 sub on_reload {
 &on_unload;
 }
-
 #-------------
 # Log: handler
 #-------------
