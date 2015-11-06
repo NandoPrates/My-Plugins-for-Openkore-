@@ -102,7 +102,6 @@ $minamount= 0;
 			$inventcheck = inventory_check($item, $minamount, $limit, $maxamount, $config{'vendorAi_$i'}, $cartadd) if ($limit);
 			$storcheck = storage_get($item, $amount, $straight) if ($amount <= $minamount & $inventcheck && $storage_get eq 1 );
 			$end = $i;
-		close_session();
 	}
 return eval($end - $total);
 }
