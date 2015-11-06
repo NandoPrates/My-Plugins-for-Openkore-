@@ -12,9 +12,10 @@
 #} 
 #
 #storage_get = Get the maxAmount from storage to add in your cart (1) or don't open your storage, if there's no item in your shop
+#if storage_get is 1, you'll need to set your storageAuto_npc and MUST use getAuto block, its required!
 #straight = if you open your storage, set if you will send from your storage to cart (1) or from storage to inventory(0)
 #maxAmount of item on your cart 
-#minAmount of item to open your storage or reopen your shop with a new amoun
+#minAmount of item to open your storage or reopen your shop with a new amount
 #cart_add = if you want add your item to cart or maintain in your inventory
 
 use strict;
