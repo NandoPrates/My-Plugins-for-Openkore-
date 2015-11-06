@@ -11,14 +11,15 @@
 #	disabled 0
 #} 
 #
-#storage_get = Get the maxAmount from storage to add in your cart (1) or don't open your storage, if there's no item in your shop
-#if storage_get is 1, set your storageAuto_npc and MUST use getAuto block, its required! 
-#It will trigger when there's no item in your inventory and when there isn't in your cart and if is enabled to get from store.
-#straight = if you open your storage, set if you will send from your storage to cart (1) or from storage to inventory(0)
-#If we dont have slot or we're overweight, it will send to cart if possible,if not it will close!
-#maxAmount of item on your cart 
-#minAmount of item to open your storage or reopen your shop with a new amount
-#cart_add = if you want add your item to cart or maintain in your inventory
+###storage_get = Get the maxAmount from storage to add in your cart (1) or don't open your storage, if there's no item in your shop
+#-If storage_get is 1, set your storageAuto_npc and MUST use getAuto block, its required! 
+#-It will trigger when there's no item in your inventory and when there isn't in your cart and if is enabled to get from store.
+#-Anyway it will send to inventory and check if can send to your cart again!
+###straight = if you open your storage, set if you will send from your storage to cart (1) or from storage to inventory(0)
+#-If we dont have slot or we're overweight, it will send to cart if possible,if not it will close!
+###maxAmount of item on your cart 
+###minAmount of item to open your storage or reopen your shop with a new amount
+###cart_add = if you want add your item to cart or maintain in your inventory
 
 use strict;
 no warnings qw(redefine uninitialized);
