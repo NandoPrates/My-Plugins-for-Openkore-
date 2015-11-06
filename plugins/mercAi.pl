@@ -1,5 +1,22 @@
 #!/usr/bin/env/perl
 
+#Utilidade : Ao relogar, recolocar sempre os itens na loja novamente.
+#Exemplo : 
+#vendorAi Erva Branca {
+#	cart_minAmount 0
+#	cart_maxAmount 250
+#	storage_get 0
+#	cart_add 1
+#	straight 1
+#	disabled 0
+#} 
+#
+#storage_get = Get the maxAmount from storage to add in your cart (1) or don't open your storage, if there's no item in your shop
+#straight = if you open your storage, set if you will send from your storage to cart (1) or from storage to inventory(0)
+#maxAmount of item on your cart 
+#minAmount of item to open your storage or reopen your shop with a new amoun
+#cart_add = if you want add your item to cart or maintain in your inventory
+
 use strict;
 no warnings qw(redefine uninitialized);
 use Time::HiRes qw(time);
@@ -15,22 +32,6 @@ use Utils;
 use Utils::Exceptions;
 use AI;
 use Misc qw(itemNameSimple);
-
-#Utilidade : Ao relogar, recolocar sempre os itens na loja novamente.
-#Exemplo : 
-#vendorAi Erva Branca {
-#	cart_minAmount 0
-#	cart_maxAmount 250
-#	storage_get 0
-#	cart_add 1
-#	straight 1
-#	disabled 0
-#} 
-#
-# + + + 
-#storage_get = Get the maxAmount from storage to add in your cart (1) or don't open your storage, if there's no item in your shop
-#straight = if you open your storage, set if you will send from your storage to cart (1) or from storage to inventory(0)
-#maxAmount of item on your cart 
 
 #Hash para colocar os pesos dos itens que você vai recolocar para vender!
 my %items_weight = (
