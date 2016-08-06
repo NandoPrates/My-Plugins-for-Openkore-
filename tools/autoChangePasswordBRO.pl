@@ -103,7 +103,7 @@ use IO::Socket::SSL;
 		## Iterate through unseen messages
 		#
 		for ( my $i = 1 ; $i <= $nm ; $i++ ) {
-			if ( $imap->unseen($i) ) {
+			if ( $imap->seen($i) ) {
 			next;
 			}
 			my $es = Email::Simple->new( join '', @{ $imap->get($i) } ); #changed top for get
