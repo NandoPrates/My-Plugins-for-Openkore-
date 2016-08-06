@@ -16,7 +16,6 @@ my $url;
 #Email_pass hash % :
 #my gmail account and password to get the current link to change of password
 #
-
 my %identity = qw(
 RagnarokUsernameWebsite AccountToken
 );
@@ -29,32 +28,45 @@ my %email_pass = qw(
 MailGmail MailPassword
 );
 
+print "Testing\n";
 main();
 
 sub main {
+=cut
 	do {
 		print ("(1/3 steps) - Deleting all emails...\nEstimated time : " . (keys %user_pass) * 0.1 . " minute\n\n");
 		delete_gmail();
 		system("cls");
-
+	}while (0);
+=cut
+	do {
 		print ("(2/3 steps) - Changing account passwords...\nEstimated time : " . (keys %user_pass) * 0.3 . " minute\n\n");
 		web_account_login();
+		system("pause");
 		system("cls");
-		
+	} while (0);
+
+	do {
 		print ("(3/3 steps) - Reading password's url changer in all e-mails\nEstimated time : " . (keys %email_pass) * 0.2 . " minute\n\n");
 		read_gmail();
 		system("pause");
-		
 		return 1;
-		
 	} while (0);
+
 }
 
 sub web_account_login {
 use WWW::Mechanize;
 my $mech = WWW::Mechanize->new();
 my $bool;
+my $ls;
 	foreach my $account (sort { $a cmp $b} keys %user_pass) {
+	goto tryagain;
+	tryagain:
+	if ($account =~ /IWantToSkipThisForWhile/ig) {
+		print "Skipping $account\n";
+		next;
+	}
 		$url = 'https://minhaconta.levelupgames.com.br/web';
 		$mech->get( $url );
 		my $text = $mech->content();
@@ -62,6 +74,20 @@ my $bool;
 				Username => $account,
 				Password => $user_pass{$account},
 			});
+		if ($mech->content() =~ /.*?Verifica..o obrigat.ria.*?/ig) {
+			print "Antibot-on\n";
+			system("pause");
+			exit(64);
+		} if ($mech->content() =~ /.*?Excedeu.*?/ig) {
+			print "Antispam-on\nExiting. . .\n\n";
+			$ls = `ipconfig\release`;
+			$ls = `ipconfig\flushdns`;
+			$ls = `ipconfig\renew`;
+			$ls = `ipconfig\registerdns`;
+			goto tryagain;
+			system("pause");
+			#exit(64);
+		}
 		$url = $url . "/esqueci-senha-jogo?identity=" . $identity{$account};
 		$mech->get( $url );
 		$bool = $mech->submit();
@@ -121,12 +147,13 @@ use IO::Socket::SSL;
 						open F, ">tokens/$accname.txt";
 						print F ('https://minhaconta.levelupgames.com.br/web/nova-senha-jogo' . $link);
 						close F;
+						print "$username got\n";
 						}
 						undef $accname;
 						undef $link;
 					}
 				} else {
-				print ("No lvlup e-mail found\n");
+				print ("No e-mail referring to Ragnarok were found in $username\n");
 				}
 			undef $subject;
 			}
