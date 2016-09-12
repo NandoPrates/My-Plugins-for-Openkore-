@@ -18,7 +18,7 @@ my $url;
 #
 
 my %identity = qw(
-RRagnarokUsernameWebsite Token
+RagnarokUsernameWebsite Token
 );
 
 my %user_pass = qw(
