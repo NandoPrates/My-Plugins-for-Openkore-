@@ -8,7 +8,7 @@ my $url;
 #Example:
 #
 #Identity hash % :  
-#my level up account of website : RagnarokUsernameWebsite and my token is MtMNoPrqx7%3D
+#my level up account of website : RagnarokUsernameWebsite and my token is rAndOmToK3N%3D
 #
 #User_pass hash % : 
 #my level up account of game : RagnarokUsernameGame and my current RagnarokPasswordGame
@@ -16,43 +16,42 @@ my $url;
 #Email_pass hash % :
 #my gmail account and password to get the current link to change of password
 #
+
 my %identity = qw(
-RagnarokUsernameWebsite AccountToken
+RRagnarokUsernameWebsite Token
 );
 
 my %user_pass = qw(
 RagnarokUsernameGame RagnarokPasswordGame
 );
 
-my %email_pass = qw(
-MailGmail MailPassword
+my @email_pass = qw(
+Email1Example
 );
 
-print "Testing\n";
+#Email1Example password = $unique (UniquePasswordAssuming)
+
+my $unique = 'UniquePasswordAssuming';
 main();
 
 sub main {
-=cut
 	do {
 		print ("(1/3 steps) - Deleting all emails...\nEstimated time : " . (keys %user_pass) * 0.1 . " minute\n\n");
 		delete_gmail();
-		system("cls");
+		#system("cls");
 	}while (0);
-=cut
 	do {
 		print ("(2/3 steps) - Changing account passwords...\nEstimated time : " . (keys %user_pass) * 0.3 . " minute\n\n");
 		web_account_login();
-		system("pause");
+		#system("pause");
 		system("cls");
 	} while (0);
-
 	do {
-		print ("(3/3 steps) - Reading password's url changer in all e-mails\nEstimated time : " . (keys %email_pass) * 0.2 . " minute\n\n");
+		print ("(3/3 steps) - Reading password's url changer in all e-mails\nEstimated time : " . (scalar (@email_pass)) * 0.2 . " minute\n\n");
 		read_gmail();
-		system("pause");
+		#system("pause");
 		return 1;
 	} while (0);
-
 }
 
 sub web_account_login {
@@ -63,10 +62,6 @@ my $ls;
 	foreach my $account (sort { $a cmp $b} keys %user_pass) {
 	goto tryagain;
 	tryagain:
-	if ($account =~ /IWantToSkipThisForWhile/ig) {
-		print "Skipping $account\n";
-		next;
-	}
 		$url = 'https://minhaconta.levelupgames.com.br/web';
 		$mech->get( $url );
 		my $text = $mech->content();
@@ -101,10 +96,12 @@ sub read_gmail {
 use Net::IMAP::Simple;
 use Email::Simple;
 use IO::Socket::SSL;
-	foreach my $emailid (sort { $a cmp $b } keys %email_pass) {
+	foreach my $emailid (@email_pass) {
 		# fill in your details here
+		print "Trying $emailid\n";
 		my $username = $emailid . '@gmail.com';
-		my $password = $email_pass{$emailid};
+		#my $password = $email_pass{$emailid};
+		my $password = $unique;
 		my $mailhost = 'pop.gmail.com';
 		# Connect
 		my $imap = Net::IMAP::Simple->new(
@@ -115,14 +112,14 @@ use IO::Socket::SSL;
 	
 		# Log in
 		if ( !$imap->login( $username, $password ) ) {
-			print (STDERR "Login failed: " . $imap->errstr . "\n");
+			print (STDERR "Login failed: $username and $password :  " . $imap->errstr . "\n");
 			exit(64);
 		}
 		# Look in the the INBOX
 		my $nm = $imap->select('INBOX');
 		# How many messages are there?
 		my ($unseen, $recent, $num_messages) = $imap->status();
-		#print ("unseen: $unseen, recent: $recent, total: $num_messages\n\n");
+		print ("unseen: $unseen, recent: $recent, total: $num_messages\n");
 		my $subject;
 		my $link;
 		my $accname;
@@ -131,46 +128,46 @@ use IO::Socket::SSL;
 		for ( my $i = 1 ; $i <= $nm ; $i++ ) {
 			if ( $imap->seen($i) ) {
 			next;
-			}
-			my $es = Email::Simple->new( join '', @{ $imap->get($i) } ); #changed top for get
-			$subject = $es->header('Subject');
-				if ($subject =~ /Ragnarok/ig) {
-					if ($es->body =~ /(\?RequestId=3D((.*)(=\n+)?(.*)(\')?(?)(\n?).+))\s+?target=3D/ig) {
-					mkdir 'tokens' if (!-d "tokens");
-					$link = $1;
-					$link =~ s/=|3d|'//ig;
-						if ($es->body =~ /c?onta (.*),/ig) {
-						$accname = $1;
-						$accname =~ s/aa/a/ig;
-						$link =~ s/RequestId/RequestId=/ig;
-						$link =~ s/\R//ig;
-						open F, ">tokens/$accname.txt";
-						print F ('https://minhaconta.levelupgames.com.br/web/nova-senha-jogo' . $link);
-						close F;
-						print "$username got\n";
+			} 
+				elsif ($imap->unseen($i)) {
+				my $es = Email::Simple->new( join '', @{ $imap->get($i) } ); #changed top for get
+				$subject = $es->header('Subject');
+					if ($subject =~ /Ragnarok/ig) {
+						if ($es->body =~ /(\?RequestId=3D((.*)(=\n+)?(.*)(\')?(?)(\n?).+))\s+?target=3D/ig) {
+						mkdir 'tokens' if (!-d "tokens");
+						$link = $1;
+						$link =~ s/=|3d|'//ig;
+							if ($es->body =~ /c?onta (.*),/ig) {
+							$accname = $1;
+							$accname =~ s/aa/a/ig;
+							$link =~ s/RequestId/RequestId=/ig;
+							$link =~ s/\R//ig;
+							open F, ">tokens/$accname.txt";
+							print F ('https://minhaconta.levelupgames.com.br/web/nova-senha-jogo' . $link);
+							close F;
+							print "$username was found !...\n\n";
+							next;
+							}
+							undef $accname;
+							undef $link;
 						}
-						undef $accname;
-						undef $link;
 					}
-				} else {
-				print ("No e-mail referring to Ragnarok were found in $username\n");
+				undef $subject;
 				}
-			undef $subject;
-			}
+		}
 			# Disconnect
 			$imap->quit;
-		}
-
 	}
+}
 
 sub delete_gmail {
 use Net::IMAP::Simple;
 use Email::Simple;
 use IO::Socket::SSL;
 # fill in your details here
-	foreach my $emailid (sort { $a cmp $b } keys %email_pass) {
+	foreach my $emailid (@email_pass) {
 	my $username = $emailid;
-	my $password = $email_pass{$emailid};
+	my $password = $unique;
 	my $mailhost = 'pop.gmail.com';
 	# Connect
 	my $imap = Net::IMAP::Simple->new(
