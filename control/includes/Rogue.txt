@@ -1,7 +1,9 @@
 attackSkillSlot Afanar {
-   lvl 10
-   dist 1.5
-   sp > 14
-   maxUses 1
-   maxAttempts 3
+lvl 10
+dist 1.5
+sp > 30
+maxUses 1
+maxAttempts 10
+whenStatusInactive Hiding, Action Delay
+target_whenStatusInactive Petrifying, Petrified, Frozen, Stunned, Sleeping, Hiding
 }
