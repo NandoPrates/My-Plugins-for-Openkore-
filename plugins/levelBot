@@ -1,3 +1,6 @@
+#Requires 
+#-> xconf plugin
+
 package levelBot;
 
 use strict;
@@ -29,6 +32,10 @@ sub on_unload {
 Plugins::delHook($phook);Commands::unregister($commands_handle);Log::delHook($logHook);
 $config{'attackAuto'} = 2;
 warning "[levelBot-plugin] - Complete\n";
+Commands::run("iconf Poção Branca 0 0 0");	#White Potion
+Commands::run("iconf Poção Vermelha 0 0 0");	#Red Potion
+Commands::run("iconf Poção de Aprendiz 0 0 0");	#Novice Potion
+Commands::run("iconf Poção Laranja 0 0 0");	#Orange Potion
 }
 
 sub on_reload {
@@ -83,10 +90,10 @@ return 2 if (_check_class() eq "Merchant");
 	$checkTimeout{time} = time();
 	if (( $config{'saveMap'} ne "geffen" || !$config{'saveMap'}) && $config{'lockMap'} =~ /gef.*06/ig) {
 		if ($char_lv < 80 && $char_lv >= 65) {
-						_command_add("lockMap gef_fild06");
-						_command_add("storageAuto_npc geffen 203 123");
-						_command_add("buyAuto_0_npc geffen_in 77 167");
-						_command_add("sellAuto_npc geffen_in 77 167");
+			_command_add("lockMap gef_fild06");
+			_command_add("storageAuto_npc geffen 203 123");
+			_command_add("buyAuto_0_npc geffen_in 77 167");
+			_command_add("sellAuto_npc geffen_in 77 167");
 		}
 run();
 _save_map("geffen 203 123");
@@ -117,12 +124,12 @@ _save_map("geffen 203 123");
 						_command_add("buyAuto_0_maxAmount 150");
 						_command_add("lockMap pay_fild08");
 		} elsif ($char_lv < 25 && $char_lv >= 19) {
-						_command_add("sellAuto_npc payon_in01 5 49");
-						_command_add("buyAuto_0_npc payon_in01 5 49");
-						_command_add("storageAuto_npc payon 181 104");
-						_command_add("lockMap pay_fild07");
+			_command_add("sellAuto_npc payon_in01 5 49");
+			_command_add("buyAuto_0_npc payon_in01 5 49");
+			_command_add("storageAuto_npc payon 181 104");
+			_command_add("lockMap pay_fild07");
 		} elsif ($char_lv < 43 && $char_lv >= 25) {
-						_command_add("lockMap pay_fild09");
+			_command_add("lockMap pay_fild09");
 		}
 run();
 _save_map("payon 181 104");
@@ -139,10 +146,10 @@ _save_map("prontera 151 29");
 	} 
 	elsif (($config{'saveMap'} ne "yuno" || !$config{'saveMap'}) && $config{'lockMap'} =~ /yuno.*03/ig) {
 		if ($char_lv >= 80 && $char_lv < 99) {
-					_command_add("sellAuto_npc yuno 218 97");
-					_command_add("buyAuto_0_npc yuno 218 97");
-					_command_add("storageAuto_npc yuno 152 187");
-					_command_add("lockMap yuno_fild03");
+			_command_add("sellAuto_npc yuno 218 97");
+			_command_add("buyAuto_0_npc yuno 218 97");
+			_command_add("storageAuto_npc yuno 152 187");
+			_command_add("lockMap yuno_fild03");
 		run();
 		_save_map("yuno 152 187");
 		}		
@@ -188,13 +195,13 @@ $config{'attackAuto'} = 0;
 		goto end;
 		} else {
 			if ($talk && $field->baseName() eq "$aF") {
-					_command_add("talknpc $aX $aY c r0 n");
-					goto end;
+				_command_add("talknpc $aX $aY c r0 n");
+				goto end;
 			} elsif ($field->baseName() eq "$aF") {
-					$x = eval($aX - int(rand(4)));
-					$y = eval($aY - int(rand(4)));
-					_command_add("move $x $y");
-					goto end;
+				$x = eval($aX - int(rand(4)));
+				$y = eval($aY - int(rand(4)));
+				_command_add("move $x $y");
+				goto end;
 			}
 		}
 		end:
@@ -207,9 +214,9 @@ my $msg;
 my $npcs = $npcsList->getItems();
 	foreach my $npc (@{$npcs}) {
 		my $pos = "($npc->{pos}{x}, $npc->{pos}{y})";
-				if ($npc->name =~ /.*$name/ig) {
-					return 1;
-				}
+			if ($npc->name =~ /.*$name/ig) {
+				return 1;
+			}
 	}
 	return 0;
 }
