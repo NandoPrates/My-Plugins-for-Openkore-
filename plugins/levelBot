@@ -1,5 +1,6 @@
 #Requires 
 #-> xconf plugin
+#https://github.com/OpenKore/openkore/blob/master/plugins/needs-review/xconf/trunk/xconf.pl
 
 package levelBot;
 
