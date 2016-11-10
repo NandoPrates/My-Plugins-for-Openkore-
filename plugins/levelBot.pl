@@ -147,18 +147,18 @@ _save_map("prontera 151 29");
 					_command_add("buyAuto_0_npc yuno 218 97");
 					_command_add("storageAuto_npc yuno 152 187");
 					_command_add("lockMap yuno_fild03");
+		}	
 run();
 _save_map("yuno 152 187");
-		}		
 	} elsif (($config{'saveMap'} ne "rachel" || !$config{'saveMap'}) || $config{'lockMap'} =~ /ve.*03/ig) {
 		if ($char_lv >= 80 || $char_lv < 99) {
 					_command_add("sellAuto_npc rachel 65 80");
 					_command_add("buyAuto_0_npc ra_in01 257 269");
 					_command_add("storageAuto_npc rachel 109 138");
 					_command_add("lockMap ve_fild03");
+		}
 run();
 _save_map("rachel 109 138");
-		}
 	} elsif ($config{'saveMap'}) {
 		on_unload();
 	} else {
