@@ -7,6 +7,9 @@ package st_timeout;
 use strict;
 use warnings;
 use Log qw (message);
+use Globals;
+use Utils;
+use Plugins;
 
 Plugins::register("[OPK-TUTO] Timeout example", "Periodically checks", \&on_unload, \&on_reload);
 
