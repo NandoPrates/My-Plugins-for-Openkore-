@@ -2,7 +2,7 @@
 
 #Hooking AI_pre
 #Using timeout on openkore
-
+#Openkore plugin -> Feel Free to copy
 package st_timeout;
 use strict;
 use warnings;
