@@ -43,6 +43,14 @@ sub _pos {
 return "$char->{pos}{x} $char->{pos}{y}" and return 1;
 }
 
+sub run_commands {
+my $x = shift;
+	for (@commands) {
+		Commands::run("$x$_");
+	}
+undef @commands;
+}
+
 sub run {
 split(/\n/, @commands);
 run_commands("conf ");
