@@ -9,7 +9,7 @@ use strict;
 use warnings;
 use LWP::Simple;
 
-my ($link, $content, $php, $ret, @towns, @ids, @logs);
+my ($link, $content, $php, @towns, @ids, @logs);
 
 sub get_npc_byname {
 my $mapname = shift;
