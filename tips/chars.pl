@@ -43,13 +43,22 @@ sub _pos {
 return "$char->{pos}{x} $char->{pos}{y}" and return 1;
 }
 
+sub run {
+split(/\n/, @commands);
+run_commands("conf ");
+}
+
+sub _command_add {
+push @commands,  $_[0];
+}
+
 sub _save_map {
 my $map = shift;
 my ($aX, $aY, $aF, $talk, $currently, $unk);
 if ($map =~ /(\w+) (\d+) (\d+)/ig) {$aF = $1;$aX = $2;$aY = $3;}
 my $x = $aX - 2;
 my $y = $aY - 3;
-$config{'attackAuto'} = 0;
+#$config{'attackAuto'} = 0;
 		if ( $field->baseName() ne "$aF") {
 		_command_add("move $aF $aX $aY");
 		run_commands();
