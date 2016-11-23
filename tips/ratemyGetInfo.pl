@@ -40,7 +40,6 @@ sub get_npc_pos {
 		for (my $i = 0;$i < scalar @ids;$i++) {
 				#nsw_npc_search.php?nid=6127&na=1&re=0
 				$php = "http://ratemyserver.net/nsw_npc_search.php?nid=$ids[$i]&na=1&re=0";
-				$link =~ s/index.*/$php/ig;
 				$content = get($php);
 					if ($content =~ /Map & Position:\<\/b\> \<br\> (.*)\<\/small\>/ig) {
 						push @logs, $1;
