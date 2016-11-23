@@ -1,7 +1,8 @@
 #!/usr/bin/env/perl
 
 #Simple perl script // It's not an openkore plugin...
-
+#What it does :?
+#1--- It get all kafra from all towns and save it to a file!!!
 package RatearRatemy;
 
 use strict;
