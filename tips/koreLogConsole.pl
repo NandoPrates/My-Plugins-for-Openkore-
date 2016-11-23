@@ -20,11 +20,11 @@ sub on_reload { on_unload(); }
 
 sub on_Log {
 my ($type, $domain, $level, $globalVerbosity, $message, $user_data) = @_;
-	if( $type eq "message" ) {
-    if ($message =~ /pattern/ig) {
-    #do your editions
-    }
-  }
+	if ( $type eq "message" ) {
+	    if ($message =~ /pattern/ig) {
+	    #do your editions
+	    }
+        }
 }
 
 1;
