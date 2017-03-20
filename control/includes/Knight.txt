@@ -76,30 +76,35 @@ useSelf_item Manual de Campo {
 timeout 1800
 inLockOnly 1
 notWhileSitting 1
+onAction attack
 }
 
 useSelf_item Manual de Campo de Classe {
 timeout 1800
 inLockOnly 1
 notWhileSitting 1
+onAction attack
 }
 
 useSelf_item Chiclete {
 timeout 1800
 inLockOnly 1
 notWhileSitting 1
+onAction attack
 }
 
 useSelf_item Poção da Fúria Selvagem {
 	timeout 1800
 	notWhileSitting 1
 	inLockOnly 1
+	onAction attack
 }
 
 useSelf_item Poção do Despertar {
 	timeout 1800
 	notWhileSitting 1
 	inLockOnly 1
+	onAction attack
 }
 
 ######## Autostorage/autosell ########
