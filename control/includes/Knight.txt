@@ -1,8 +1,134 @@
-useSelf_skill Rapidez com Duas Mãos {
-	lvl 10
-	sp > 20%
-	whenStatusInactive Two-Hand Quicken
+useSelf_item Poção Branca {
+	hp < 35%
+}
+
+useSelf_skill LK_TENSIONRELAX {
+	lvl 1
+	hp < 60%
+	stopWhenHit 1
+	whenStatusInactive Action Delay
+	notWhileSitting 1
+	sp > 45%
+}
+
+useSelf_skill RK_ENCHANTBLADE {
+	lvl 5
+	sp > 60
+	whenStatusInactive Enchant Blade
+	stopWhenHit 0
 	inLockOnly 1
+	monstersCount >= 1
 	notWhileSitting 1
 	notInTown 1
+	onAction attack
 }
+
+useSelf_skill KN_TWOHANDQUICKEN {
+	lvl 10
+	sp > 50
+	whenStatusInactive Two-Hand Quicken
+	onAction attack
+	stopWhenHit 0
+	inLockOnly 1
+	monstersCount >= 1
+	notWhileSitting 1
+	notInTown 1
+	onAction attack
+}
+
+useSelf_skill LK_CONCENTRATION {
+	lvl 5
+	sp > 30
+	whenStatusInactive Concentration
+	stopWhenHit 0
+	inLockOnly 1
+	monstersCount >= 1
+	notWhileSitting 1
+	notInTown 1
+	onAction attack
+}
+
+useSelf_skill LK_AURABLADE {
+	lvl 5
+	sp > 50
+	whenStatusInactive Aura Blade
+	stopWhenHit 0
+	inLockOnly 1
+	monstersCount >= 1
+	notWhileSitting 1
+	notInTown 1
+	onAction attack
+}
+
+useSelf_skill LK_PARRYING {
+	lvl 10
+	sp > 50
+	whenStatusInactive Parrying
+	stopWhenHit 0
+	inLockOnly 1
+	monstersCount >= 1
+	notWhileSitting 1
+	notInTown 1
+	onAction attack
+}
+
+useSelf_item Manual de Campo {
+timeout 1800
+inLockOnly 1
+notWhileSitting 1
+}
+
+useSelf_item Manual de Campo de Classe {
+timeout 1800
+inLockOnly 1
+notWhileSitting 1
+}
+
+useSelf_item Chiclete {
+timeout 1800
+inLockOnly 1
+notWhileSitting 1
+}
+
+useSelf_item Poção da Fúria Selvagem {
+	timeout 1800
+	notWhileSitting 1
+	inLockOnly 1
+}
+
+useSelf_item Poção do Despertar {
+	timeout 1800
+	notWhileSitting 1
+	inLockOnly 1
+}
+
+######## Autostorage/autosell ########
+
+buyAuto Poção Branca {
+	npc ra_in01 257 269
+	minAmount 0
+	disabled 1
+	maxAmount 100
+}
+
+sitAuto_hp_lower 40
+sitAuto_hp_upper 100
+
+sellAuto 1
+sellAuto_npc rachel 65 80
+sellAuto_standpoint
+sellAuto_distance 5
+sellAuto_npc_steps s e
+
+storageAuto 1
+storageAuto_npc rachel 109 138
+storageAuto_distance 5
+storageAuto_npc_type 1
+storageAuto_npc_steps
+storageAuto_password 7547
+storageEncryptKey 0x050B6F79, 0x0202C179, 0x0E20120, 0x04FA43E3, 0x0179B6C8, 0x05973DF2, 0x07D8D6B, 0x08CB9ED9
+storageAuto_keepOpen 0
+storageAuto_useChatCommand
+storageAuto_notAfterDeath
+relogAfterStorage 0
+minStorageZeny 50
