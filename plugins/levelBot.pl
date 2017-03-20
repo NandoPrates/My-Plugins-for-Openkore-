@@ -23,17 +23,16 @@ my $commands_handle = Commands::register(
 	['ms', 'Prepare merchant to sell', \&on_ms]
 );
 
-my %checkTimeout = ( time => time(), timeout => 10 );
+my %checkTimeout = ( time => time(), timeout => 5 );
 
 sub on_unload {
 Plugins::delHook($phook);Commands::unregister($commands_handle);Log::delHook($logHook);
 $config{'attackAuto'} = 2;
 warning "[levelBot-plugin] - Complete\n";
-warning "[levelBot-plugin] - Complete\n";
-Commands::run("iconf Poção Branca 0 0 0");	#White Potion
-Commands::run("iconf Poção Vermelha 0 0 0");	#Red Potion
-Commands::run("iconf Poção de Aprendiz 0 0 0");	#Novice Potion
-Commands::run("iconf Poção Laranja 0 0 0");	#Orange Potion
+Commands::run("iconf Poção Branca 0 0 0") if (-e "plugins/iconf.pl");	#White Potion
+Commands::run("iconf Poção Vermelha 0 0 0") if (-e "plugins/iconf.pl");#Red Potion
+Commands::run("iconf Poção de Aprendiz 0 0 0") if (-e "plugins/iconf.pl");#Novice Potion
+Commands::run("iconf Poção Laranja 0 0 0") if (-e "plugins/iconf.pl");#Orange Potion
 }
 
 sub on_reload {
@@ -81,6 +80,11 @@ sub prepare {
 my $args = shift;
 goto end if ($args eq "loop");
 _command_add("autoTalkCont 0");
+_command_add("buyAuto_0 Poção Vermelha");
+_command_add("buyAuto_0_minAmount 0");
+_command_add("buyAuto_0_maxAmount 150");
+_command_add("useSelf_item_0 Poção Vermelha, Poção Laranja, Poção de Aprendiz, Poção Branca");
+_command_add("useSelf_item_0_hp < 70%");
 my $char_lv = $char->{'lv'};
 my $char_jb = $char->{'lv_job'};return 2 if (_check_class() eq "Merchant");
 	goto savemap;
@@ -98,9 +102,7 @@ _save_map("geffen 203 123");
 	}
 	if (($config{'saveMap'} ne "payon" || !$config{'saveMap'}) || $config{'lockMap'} =~ /pay.*/ig) {
 		if ($char_lv < 19) {
-			_command_add("itemsMaxWeight_sellOrStore");
-			_command_add("useSelf_item_0 Poção Vermelha, Poção Laranja, Poção de Aprendiz, Poção Branca");
-			_command_add("useSelf_item_0_hp < 70%");
+
 				if (_check_class() == "High Novice") {
 					_command_add("sellAuto 0");
 					_command_add("storageAuto 0");
@@ -116,9 +118,6 @@ _save_map("geffen 203 123");
 						_command_add("buyAuto_0_disabled 1");
 					}
 						_command_add("buyAuto_0_npc payon_in01 5 49");
-						_command_add("buyAuto_0 Poção Vermelha");
-						_command_add("buyAuto_0_minAmount 0");
-						_command_add("buyAuto_0_maxAmount 150");
 						_command_add("lockMap pay_fild08");
 		} elsif ($char_lv < 25 && $char_lv >= 19) {
 						_command_add("sellAuto_npc payon_in01 5 49");
@@ -132,7 +131,6 @@ run();
 _save_map("payon 181 104");
 	}
 	if (($config{'saveMap'} ne "prontera" || !$config{'saveMap'}) || $config{'lockMap'} eq "gef_fild10") {
-		warning "Geffen detected\n";
 		if ($char_lv < 50 && $char_lv >= 43) {
 			_command_add("sellAuto_npc prt_in 126 76");
 			_command_add("buyAuto_0_npc prt_in 126 76");
@@ -160,7 +158,7 @@ _save_map("yuno 152 187");
 run();
 _save_map("rachel 109 138");
 		}
-	} elsif ($config{'saveMap'}) {
+	} if ($config{'saveMap'}) {
 		on_unload();
 	} else {
 		warning "[levelBot-plugin] - Don't know what to about your up.\n";
@@ -202,8 +200,9 @@ $config{'attackAuto'} = 0;
 		$checkTimeout{time} = time();
 		goto end;
 		} else {
+		$talk = npc_exist("Kafra", $aX, $aY);
 			if ($talk && $field->baseName() eq "$aF") {
-					_command_add("talknpc $aX $aY c r0 n");
+					_command_add("talknpc $talk c r0 n");
 					goto end;
 			} elsif ($field->baseName() eq "$aF") {
 					$x = eval($aX - int(rand(4)));
@@ -217,14 +216,17 @@ $config{'attackAuto'} = 0;
 }
 
 sub npc_exist {
-my $name = shift;
+my ($name, $x, $y) = @_;
 my $msg;
 my $npcs = $npcsList->getItems();
 	foreach my $npc (@{$npcs}) {
-		my $pos = "($npc->{pos}{x}, $npc->{pos}{y})";
+		my $pos = "$npc->{pos}{x} $npc->{pos}{y}";
 				if ($npc->name =~ /.*$name/ig) {
-					return 1;
-				}
+					if ($pos eq "$x $y");
+						return $pos;
+					} else {
+						return 0;
+					}
 	}
 	return 0;
 }
