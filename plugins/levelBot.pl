@@ -52,7 +52,7 @@ my ($type, $domain, $level, $globalVerbosity, $message, $user_data) = @_;
 
 sub onLoop {
 	if ( timeOut (\%checkTimeout) ) {
-	prepare("loop");
+	prepare();
 	}
 
 }
@@ -80,25 +80,25 @@ warning "Please, set-up your items to sell and restart your bot.\n";
 sub prepare {
 my $args = shift;
 goto end if ($args eq "loop");
+_command_add("autoTalkCont 0");
 my $char_lv = $char->{'lv'};
 my $char_jb = $char->{'lv_job'};return 2 if (_check_class() eq "Merchant");
 	goto savemap;
 	savemap:
 	$checkTimeout{time} = time();
-	if (( $config{'saveMap'} ne "geffen" || !$config{'saveMap'}) || $config{'lockMap'} =~ /gef.*06/ig) {
-		if ($char_lv < 80 || $char_lv >= 65) {
+	if (( $config{'saveMap'} ne "geffen" || !$config{'saveMap'}) || $config{'lockMap'} eq "gef_fild06") {
+		if ($char_lv < 80 && $char_lv >= 65) {
 						_command_add("lockMap gef_fild06");
 						_command_add("storageAuto_npc geffen 203 123");
 						_command_add("buyAuto_0_npc geffen_in 77 167");
 						_command_add("sellAuto_npc geffen_in 77 167");
-		}
 run();
 _save_map("geffen 203 123");
+		}
 	}
-	elsif (($config{'saveMap'} ne "payon" || !$config{'saveMap'}) || $config{'lockMap'} =~ /pay.*/ig) {
+	if (($config{'saveMap'} ne "payon" || !$config{'saveMap'}) || $config{'lockMap'} =~ /pay.*/ig) {
 		if ($char_lv < 19) {
 			_command_add("itemsMaxWeight_sellOrStore");
-			_command_add("autoTalkCont 0");
 			_command_add("useSelf_item_0 Poção Vermelha, Poção Laranja, Poção de Aprendiz, Poção Branca");
 			_command_add("useSelf_item_0_hp < 70%");
 				if (_check_class() == "High Novice") {
@@ -120,45 +120,46 @@ _save_map("geffen 203 123");
 						_command_add("buyAuto_0_minAmount 0");
 						_command_add("buyAuto_0_maxAmount 150");
 						_command_add("lockMap pay_fild08");
-		} elsif ($char_lv < 25 || $char_lv >= 19) {
+		} elsif ($char_lv < 25 && $char_lv >= 19) {
 						_command_add("sellAuto_npc payon_in01 5 49");
 						_command_add("buyAuto_0_npc payon_in01 5 49");
 						_command_add("storageAuto_npc payon 181 104");
 						_command_add("lockMap pay_fild07");
-		} elsif ($char_lv < 43 || $char_lv >= 25) {
+		} elsif ($char_lv < 43 && $char_lv >= 25) {
 						_command_add("lockMap pay_fild09");
 		}
 run();
 _save_map("payon 181 104");
-	} 
-	elsif (($config{'saveMap'} ne "prontera" || !$config{'saveMap'}) || $config{'lockMap'} =~ /gef.*10/ig) {
-		if ($char_lv < 50 || $char_lv >= 43) {
+	}
+	if (($config{'saveMap'} ne "prontera" || !$config{'saveMap'}) || $config{'lockMap'} eq "gef_fild10") {
+		warning "Geffen detected\n";
+		if ($char_lv < 50 && $char_lv >= 43) {
 			_command_add("sellAuto_npc prt_in 126 76");
 			_command_add("buyAuto_0_npc prt_in 126 76");
 			_command_add("storageAuto_npc prontera 151 29");
 			_command_add("lockMap gef_fild10");
-		}
 run();
 _save_map("prontera 151 29");
+		}
 	} 
-	elsif (($config{'saveMap'} ne "yuno" || !$config{'saveMap'}) || $config{'lockMap'} =~ /yuno.*03/ig) {
-		if ($char_lv >= 80 || $char_lv < 99) {
+	if (($config{'saveMap'} ne "yuno" || !$config{'saveMap'}) || $config{'lockMap'} eq "yuno_fild03") {
+		if ($char_lv >= 80 && $char_lv < 99) {
 					_command_add("sellAuto_npc yuno 218 97");
 					_command_add("buyAuto_0_npc yuno 218 97");
 					_command_add("storageAuto_npc yuno 152 187");
 					_command_add("lockMap yuno_fild03");
-		}	
 run();
 _save_map("yuno 152 187");
-	} elsif (($config{'saveMap'} ne "rachel" || !$config{'saveMap'}) || $config{'lockMap'} =~ /ve.*03/ig) {
-		if ($char_lv >= 80 || $char_lv < 99) {
+		}	
+	} if (($config{'saveMap'} ne "rachel" || !$config{'saveMap'}) || $config{'lockMap'} eq "ve_fild03") {
+		if ($char_lv >= 80 && $char_lv < 99) {
 					_command_add("sellAuto_npc rachel 65 80");
 					_command_add("buyAuto_0_npc ra_in01 257 269");
 					_command_add("storageAuto_npc rachel 109 138");
 					_command_add("lockMap ve_fild03");
-		}
 run();
 _save_map("rachel 109 138");
+		}
 	} elsif ($config{'saveMap'}) {
 		on_unload();
 	} else {
