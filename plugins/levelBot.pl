@@ -240,7 +240,7 @@ return $jobs_lut{$char->{'jobID'}};
 sub _zeny {
 return formatNumber($char->{'zeny'}) if (defined($char->{'zeny'}));
 }
-=cut
+=pod
 sub _weight {
 return eval($char->{'weight'}/$char->{'weight_max'} * 100);
 }
