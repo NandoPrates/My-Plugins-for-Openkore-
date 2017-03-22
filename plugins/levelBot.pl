@@ -42,7 +42,7 @@ warning "[levelBot-plugin] - Reloaded\n";
 sub on_Log {
 my ($type, $domain, $level, $globalVerbosity, $message, $user_data) = @_;
 	if( $type eq "message" ) {
-		if ($message =~ /ponto de retorno/ig) {
+		if ($message =~ /ponto de retorno/ig) {	#Return point message from kafra in console!
 			Commands::run("conf saveMap ". $field->baseName());
 			$saved = 1;
 		}
@@ -57,7 +57,7 @@ sub onLoop {
 }
 
 sub on_pre {
-prepare();
+prepare("loop");	#I believe you should remove this loop! I believe you'll understand this plugin !
 return 1;
 }
 
@@ -74,6 +74,7 @@ _command_add("shopAuto_open 1");
 _command_add("shop_useSkill 1");
 run_commands();
 warning "Please, set-up your items to sell and restart your bot.\n";
+on_unload();
 }
 
 sub prepare {
@@ -189,25 +190,25 @@ push @commands,  $_[0];
 
 sub _save_map {
 my $map = shift;
-my ($aX, $aY, $aF, $talk, $currently, $unk);
-if ($map =~ /(\w+) (\d+) (\d+)/ig) {$aF = $1;$aX = $2;$aY = $3;}
-my $x = $aX - 2;
-my $y = $aY - 3;
+my ($coords_x, $coords_y, $fieldName, $talk, $currently, $unk);
+if ($map =~ /(\w+) (\d+) (\d+)/ig) {$fieldName = $1;$coords_x = $2;$coords_y = $3;}
+my $want_x = $coords_x - 2;
+my $want_y = $coords_y - 3;
 $config{'attackAuto'} = 0;
-		if ( $field->baseName() ne "$aF") {
-		_command_add("move $aF $aX $aY");
+		if ( $field->baseName() ne "$fieldName") {
+		_command_add("move $fieldName $coords_x $coords_y");
 		run_commands();
 		$checkTimeout{time} = time();
 		goto end;
 		} else {
-		$talk = npc_exist("Kafra", $aX, $aY);
-			if ($talk && $field->baseName() eq "$aF") {
+		$talk = npc_exist("Kafra", $coords_x, $coords_y);
+			if ($talk && $field->baseName() eq "$fieldName") {
 					_command_add("talknpc $talk c r0 n");
 					goto end;
-			} elsif ($field->baseName() eq "$aF") {
-					$x = eval($aX - int(rand(4)));
-					$y = eval($aY - int(rand(4)));
-					_command_add("move $x $y");
+			} elsif ($field->baseName() eq "$fieldName") {
+					$want_x = eval($coords_x - int(rand(4)));
+					$want_y = eval($coords_y - int(rand(4)));
+					_command_add("move $want_x $want_y");
 					goto end;
 			}
 		}
@@ -222,11 +223,12 @@ my $npcs = $npcsList->getItems();
 	foreach my $npc (@{$npcs}) {
 		my $pos = "$npc->{pos}{x} $npc->{pos}{y}";
 				if ($npc->name =~ /.*$name/ig) {
-					if ($pos eq "$x $y");
+					if ($pos eq "$x $y") {
 						return $pos;
 					} else {
-						return 0;
+						return 0;	
 					}
+				}
 	}
 	return 0;
 }
