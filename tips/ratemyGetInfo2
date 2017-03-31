@@ -3,7 +3,7 @@
 #Simple perl script // It's not an openkore plugin...
 #What it does :?
 #1--- It get all tool dealer from all towns or subtowns ! 
-package RatearRatemy;
+package RatearRatemy2;
 
 use strict;
 use warnings;
