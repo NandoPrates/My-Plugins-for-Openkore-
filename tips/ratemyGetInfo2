@@ -2,8 +2,8 @@
 
 #Simple perl script // It's not an openkore plugin...
 #What it does :?
-#1--- It get all kafra from all towns and save it to a file!!!
-package RatearRatemy2;
+#1--- It get all tool dealer from all towns or subtowns ! 
+package RatearRatemy;
 
 use strict;
 use warnings;
@@ -17,35 +17,9 @@ my $want = "Tool Dealer";
 sub get_npc_byname {
 my $mapname = shift;
 my $name = shift;
-my $tmp1;
 	$link = 'http://ratemyserver.net/index.php?page=npc_shop_warp&map=MAPNAME';
 	$link =~ s/mapname/$mapname/ig;
-	
-	$content = get($link);
-	#<a href=id="t#npc_6127" class="nsw_sl">Kafra Employee</a>
-	
-	if ($name =~ /Tool Dealer/ig) {
-		while ($content =~ /index\.php\?.*warp\/((.*)_in(\d+)?)/ig) {
-			push @ids, "$1" if (!$list{$1} && $1);
-			$list{$1} = "1";
-			$tmp1 = $1;
-		}
-		if (!$tmp1) { $tmp1 = 'undef' ; }
-		$link = "http:\/\/ratemyserver.net\/index.php\?page=npc_shop_warp&map=$tmp1";
-		$content = get($link);
-			if ($content =~ /\.php\?sid=(\d+).*\/shop\/tool_dealer\.gif/ig) {
-				$link = "http:\/\/ratemyserver.net\/nsw_shop_search.php\?sid=$1";
-				$content = get($link);
-					if ($content =~ /(Red|Orange|Yellow|White|Green) Potion/ig) {			#Check for NPC with Items ! ^^
-						push @ids, $1;
-					}
-				
-			}
-	} elsif ($name =~ /Kafra/ig) {
-		while ($content =~ /(.*)id=(\d+).*$name/ig) {
-				push @ids, $2;
-		}
-	}
+	get_town_and_subtown($name, $link);
 	return scalar @ids;
 }
 
@@ -57,14 +31,44 @@ $content = get($link);
 	}
 }
 
+sub get_town_and_subtown {
+my $name = shift;
+my $link = shift;
+my $tmp1;
+my $tmp2;
+$content = get($link);
+if ($name =~ /Tool Dealer/ig) {
+		while ($content =~ /index\.php\?.*warp\/((.*)_in(\d+)?)/ig) {
+			#push @ids, "$1" if (!$list{$1} && $1);
+			$list{$1} = "1";
+			$tmp1 = $1;
+		}
+		if (!$tmp1) { $tmp1 = 'undef' ; }
+		$link = "http:\/\/ratemyserver.net\/index.php\?page=npc_shop_warp&map=$tmp1";
+		$content = get($link);
+			if ($content =~ /\.php\?sid=(\d+).*\/shop\/tool_dealer\.gif/ig) {
+				$link = "http:\/\/ratemyserver.net\/nsw_shop_search.php\?sid=$1";
+				$content = get($link);
+				$tmp2 = $1;
+					if ($content =~ /(Red|Orange|Yellow|White|Green) Potion/ig) {#Check for NPC with Items ! ^^
+						push @ids, $tmp2;
+					}
+			}
+	} elsif ($name =~ /Kafra/ig) {
+		while ($content =~ /(.*)id=(\d+).*$name/ig) {
+				push @ids, $2;
+		}
+	}
+}
+
 sub get_npc_pos {
-	for (my $i=0;$i<scalar @towns;$i++) {
+	for (my $i=0;$i < 2;$i++) {
 		get_npc_byname("$towns[$i]", "$want");
 	}
 	return 0 if (!@ids);
 		for (my $i = 0;$i < scalar @ids;$i++) {
 				if ($want =~ /Kafra/ig) {
-				$php = "http:\/\/ratemyserver.net\/nsw_npc_search.php?nid=$ids[$i]&na=1&re=0";
+				$php = "http:\/\/ratemyserver.net\/nsw_npc_search.php?nid=$ids[$i]";
 				} elsif ($want =~ /Tool Dealer/ig)  {
 				$php = "http:\/\/ratemyserver.net\/nsw_shop_search.php?sid=$ids[$i]";
 				}
@@ -72,9 +76,10 @@ sub get_npc_pos {
 					if ($content =~ /Map & Position:\<\/b\> \<br\> (.*)\<\/small\>/ig) {
 						push @logs, "$want = $1";
 					} elsif ($content =~ /.*Coordinate:.*\<br\> (.*)<\/small\>/ig) {
-						push @logs, "$want = $1"
+						push @logs, "$want = $1";
 					}
 		}
+	return 1;
 }
 
 sub logs {
@@ -84,7 +89,12 @@ close (F);
 }
 
 get_maps();
-get_npc_pos();
+my $returned = 0;
+$returned = get_npc_pos();
+if ($returned eq 0) { print "Some error ocurred\n";} else { print "Success printing file\n";}
 logs();
+
+system("pause");
+
 
 1;
