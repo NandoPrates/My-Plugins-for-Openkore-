@@ -59,17 +59,10 @@ $content = get($link);
 
 sub get_npc_pos {
 	for (my $i=0;$i<scalar @towns;$i++) {
-		#get_npc_byname("$towns[$i]", "$want");
+		get_npc_byname("$towns[$i]", "$want");
 	}
-
-	#if ($want eq "Tool Dealer") {
-	#	foreach (keys %list) {
-	#		
-	#	}
-	#}
 	return 0 if (!@ids);
 		for (my $i = 0;$i < scalar @ids;$i++) {
-				#nsw_npc_search.php?nid=6127&na=1&re=0
 				if ($want =~ /Kafra/ig) {
 				$php = "http:\/\/ratemyserver.net\/nsw_npc_search.php?nid=$ids[$i]&na=1&re=0";
 				} elsif ($want =~ /Tool Dealer/ig)  {
@@ -93,8 +86,5 @@ close (F);
 get_maps();
 get_npc_pos();
 logs();
-
-system("pause");
-
 
 1;
